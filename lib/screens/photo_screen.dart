@@ -1,9 +1,9 @@
-import 'dart:typed_data';
-
 import 'package:firebase_storage/firebase_storage.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'dart:html' as html;
 import 'package:faber_ticket_ft/services/firebase_service.dart';
+import 'package:faber_ticket_ft/utils/constants.dart';
 
 class PhotoScreen extends StatefulWidget {
   @override
@@ -30,20 +30,18 @@ class _PhotoScreenState extends State<PhotoScreen> {
         final ref = FirebaseStorage.instance.ref().child('images/${DateTime.now().millisecondsSinceEpoch}');
         final uploadTask = ref.putData(bytes);
         final snapshot = await uploadTask;
-        final url = await snapshot.ref.getDownloadURL();
 
+        final downloadUrl = await snapshot.ref.getDownloadURL();
         setState(() {
-          imageUrls[i] = url;
+          imageUrls[i] = downloadUrl;
         });
       }
     }
   }
 
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.white,
       body: SafeArea(
         child: Column(
           children: [
