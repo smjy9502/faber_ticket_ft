@@ -3,8 +3,34 @@ import 'package:flutter/material.dart';
 import 'package:faber_ticket_ft/screens/custom_screen.dart';
 import 'package:faber_ticket_ft/screens/song_screen.dart';
 import 'package:faber_ticket_ft/widgets/custom_button.dart';
+import 'package:faber_ticket_ft/services/firebase_service.dart';
+import 'error_screen.dart';
 
-class MainScreen extends StatelessWidget {
+class MainScreen extends StatefulWidget {
+  @override
+  _MainScreenState createState() => _MainScreenState();
+}
+
+class _MainScreenState extends State<MainScreen> {
+  final FirebaseService _firebaseService = FirebaseService();
+
+  @override
+  void initState() {
+    super.initState();
+    checkAccess();
+  }
+
+  Future<void> checkAccess() async {
+    final uid = await _firebaseService.getOrCreateUID();
+    bool isValid = await _firebaseService.verifyAccess(uid);
+    if (!isValid) {
+      Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(builder: (context) => ErrorScreen()),
+      );
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
