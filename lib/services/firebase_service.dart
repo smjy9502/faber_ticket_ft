@@ -15,15 +15,24 @@ class FirebaseService {
     if (uid == null) {
       uid = Uuid().v4();
       await prefs.setString('user_uid', uid);
-      // UID를 Firestore에 저장
       await _firestore.collection('users').doc(uid).set({'createdAt': DateTime.now()});
     }
     return uid;
   }
 
+  Future<bool> verifyAccess(String uid) async {
+    try {
+      DocumentSnapshot userDoc = await _firestore.collection('users').doc(uid).get();
+      return userDoc.exists;
+    } catch (e) {
+      print('Error verifying access: $e');
+      return false;
+    }
+  }
+
   Future<void> saveCustomData(Map<String, String> data) async {
     final uid = await getOrCreateUID();
-    await _firestore.collection(Constants.customDataCollection).doc(uid).set(data);
+    await _firestore.collection(Constants.customDataCollection).doc(uid).set(data, SetOptions(merge: true));
   }
 
   Future<String> uploadImage(html.File file) async {
@@ -40,8 +49,7 @@ class FirebaseService {
     final snapshot = await uploadTask.whenComplete(() {});
     final downloadUrl = await snapshot.ref.getDownloadURL();
 
-    print('Download URL: $downloadUrl'); // 디버깅용
-
+    print('Download URL: $downloadUrl');
     return downloadUrl;
   }
 
@@ -49,15 +57,5 @@ class FirebaseService {
     final uid = await getOrCreateUID();
     DocumentSnapshot snapshot = await _firestore.collection(Constants.customDataCollection).doc(uid).get();
     return snapshot.data() as Map<String, dynamic>? ?? {};
-  }
-
-  Future<bool> verifyAccess(String uid) async {
-    try {
-      DocumentSnapshot userDoc = await _firestore.collection('users').doc(uid).get();
-      return userDoc.exists;
-    } catch (e) {
-      print('Error verifying access: $e');
-      return false;
-    }
   }
 }
