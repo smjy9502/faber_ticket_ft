@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:faber_ticket_ft/services/firebase_service.dart';
+import 'package:faber_ticket_ft/utils/constants.dart';
+import 'package:faber_ticket_ft/screens/photo_screen.dart';
 
 class CustomScreen extends StatefulWidget {
   @override
@@ -51,95 +53,119 @@ class _CustomScreenState extends State<CustomScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: Text('Custom Screen')),
-      body: SingleChildScrollView(
-        child: Padding(
-          padding: const EdgeInsets.all(16.0),
-          child: Table(
-            columnWidths: {
-              0: FixedColumnWidth(100),
-              1: FlexColumnWidth(),
-            },
-            border: TableBorder.all(color: Colors.grey),
-            children: [
-              TableRow(
-                children: [
-                  TableCell(child: Center(child: Text('Title'))),
-                  TableCell(child: Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: TextField(controller: controllers['Title']),
-                  )),
-                ],
-              ),
-              TableRow(
-                children: [
-                  TableCell(child: Center(child: Text('Release'))),
-                  TableCell(child: Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: TextField(controller: controllers['Release']),
-                  )),
-                ],
-              ),
-              TableRow(
-                children: [
-                  TableCell(child: Center(child: Text('Director'))),
-                  TableCell(child: Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: TextField(controller: controllers['Director']),
-                  )),
-                ],
-              ),
-              TableRow(
-                children: [
-                  TableCell(child: Center(child: Text('Cast'))),
-                  TableCell(child: Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: TextField(controller: controllers['Cast']),
-                  )),
-                ],
-              ),
-              TableRow(
-                children: [
-                  TableCell(child: Center(child: Text('Review'))),
-                  TableCell(child: Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: TextField(controller: controllers['Review']),
-                  )),
-                ],
-              ),
-              TableRow(
-                children: [
-                  TableCell(child: Center(child: Text('Date'))),
-                  TableCell(child: Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: TextField(controller: controllers['Date']),
-                  )),
-                ],
-              ),
-              TableRow(
-                children: [
-                  TableCell(child: Center(child: Text('Time'))),
-                  TableCell(child: Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: TextField(controller: controllers['Time']),
-                  )),
-                ],
-              ),
-              TableRow(
-                children: [
-                  TableCell(child: Center(child: Text('Theater'))),
-                  TableCell(child: Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: TextField(controller: controllers['Theater']),
-                  )),
-                ],
-              ),
-            ],
+      body: Container(
+        decoration: BoxDecoration(
+          image: DecorationImage(
+            image: AssetImage(Constants.ticketBackImage),
+            fit: BoxFit.cover,
+          ),
+        ),
+        child: SingleChildScrollView(
+          child: Padding(
+            padding: const EdgeInsets.all(16.0),
+            child: Table(
+              columnWidths: {
+                0: FixedColumnWidth(100),
+                1: FlexColumnWidth(),
+              },
+              border: TableBorder.all(color: Colors.grey),
+              children: [
+                TableRow(
+                  children: [
+                    TableCell(child: Center(child: Text('Title'))),
+                    TableCell(child: Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: TextField(controller: controllers['Title']),
+                    )),
+                  ],
+                ),
+                TableRow(
+                  children: [
+                    TableCell(child: Center(child: Text('Release'))),
+                    TableCell(child: Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: TextField(controller: controllers['Release']),
+                    )),
+                  ],
+                ),
+                TableRow(
+                  children: [
+                    TableCell(child: Center(child: Text('Director'))),
+                    TableCell(child: Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: TextField(controller: controllers['Director']),
+                    )),
+                  ],
+                ),
+                TableRow(
+                  children: [
+                    TableCell(child: Center(child: Text('Cast'))),
+                    TableCell(child: Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: TextField(controller: controllers['Cast']),
+                    )),
+                  ],
+                ),
+                TableRow(
+                  children: [
+                    TableCell(child: Center(child: Text('Review'))),
+                    TableCell(child: Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: TextField(controller: controllers['Review']),
+                    )),
+                  ],
+                ),
+                TableRow(
+                  children: [
+                    TableCell(child: Center(child: Text('Date'))),
+                    TableCell(child: Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: TextField(controller: controllers['Date']),
+                    )),
+                  ],
+                ),
+                TableRow(
+                  children: [
+                    TableCell(child: Center(child: Text('Time'))),
+                    TableCell(child: Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: TextField(controller: controllers['Time']),
+                    )),
+                  ],
+                ),
+                TableRow(
+                  children: [
+                    TableCell(child: Center(child: Text('Theater'))),
+                    TableCell(child: Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: TextField(controller: controllers['Theater']),
+                    )),
+                  ],
+                ),
+              ],
+            ),
           ),
         ),
       ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: saveData,
-        child: Icon(Icons.save),
+      bottomNavigationBar: BottomAppBar(
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          children: [
+            ElevatedButton(
+              onPressed: saveData,
+              child: Text('Save'),
+            ),
+            ElevatedButton(
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => PhotoScreen()),
+                );
+              },
+              child: Text('Photo'),
+            ),
+          ],
+        ),
       ),
     );
   }
