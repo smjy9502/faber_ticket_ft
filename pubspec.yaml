@@ -11,7 +11,7 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-  image_picker_for_web: ^2.1.0
+  image_picker_for_web: ^3.0.6
   youtube_player_iframe: ^2.2.2
   cloud_firestore: ^5.6.5
   firebase_core: ^3.12.0
@@ -22,7 +22,7 @@ dependencies:
   nfc_manager: ^3.5.0
 
 dependency_overrides:
-  firebase_core_platform_interface: 4.8.0
+  firebase_core_platform_interface: ^5.4.0
 
 dev_dependencies:
   flutter_test:
