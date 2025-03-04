@@ -43,8 +43,10 @@ class _CustomScreenState extends State<CustomScreen> {
       ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('Data saved successfully!')));
     } catch (e) {
       print('Error saving data: $e');
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('Error saving data: $e')));
     }
   }
+
 
   Future<void> loadData() async {
     try {

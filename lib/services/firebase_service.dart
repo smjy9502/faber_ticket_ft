@@ -40,11 +40,13 @@ class FirebaseService {
     try {
       final uid = await getOrCreateUID();
       await _firestore.collection('users').doc(uid).set({
-        'createdAt': DateTime.now(),
+        'createdAt': FieldValue.serverTimestamp(),
         'customData': data,
       }, SetOptions(merge: true));
+      print('Data saved successfully for user: $uid');
     } catch (e) {
       print('Error saving custom data: $e');
+      throw e;  // 오류를 상위로 전파
     }
   }
 
