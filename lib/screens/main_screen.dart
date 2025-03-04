@@ -5,6 +5,7 @@ import 'package:faber_ticket_ft/screens/song_screen.dart';
 import 'package:faber_ticket_ft/widgets/custom_button.dart';
 import 'package:faber_ticket_ft/services/firebase_service.dart';
 import 'error_screen.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class MainScreen extends StatefulWidget {
   @override
@@ -19,6 +20,13 @@ class _MainScreenState extends State<MainScreen> {
     super.initState();
     checkAccess();
   }
+
+  // NFC 칩 접속 시 'isFromNFC' 값을 'true'로 설정
+  Future<void> setNFCFlag() async {
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.setBool('isFromNFC', true);
+  }
+
 
   Future<void> checkAccess() async {
     try {

@@ -1,5 +1,4 @@
 import 'dart:typed_data';
-
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'dart:html' as html;
@@ -13,6 +12,21 @@ class PhotoScreen extends StatefulWidget {
 class _PhotoScreenState extends State<PhotoScreen> {
   final FirebaseService _firebaseService = FirebaseService();
   List<String> imageUrls = List.filled(9, '');
+
+  @override
+  void initState() {
+    super.initState();
+    loadImages();
+  }
+
+  Future<void> loadImages() async {
+    final data = await _firebaseService.getCustomData();
+    if (data['imageUrls'] != null) {
+      setState(() {
+        imageUrls = List<String>.from(data['imageUrls']);
+      });
+    }
+  }
 
   Future<void> _uploadImages() async {
     try {
@@ -39,10 +53,20 @@ class _PhotoScreenState extends State<PhotoScreen> {
             imageUrls[i] = downloadUrl;
           });
         }
+        saveImages();
       }
     } catch (e) {
       print('Error uploading image: $e');
     }
+  }
+
+  Future<void> saveImages() async {
+    // imageUrls를 String으로 변환하여 저장
+    Map<String, String> data = {};
+    for (int i = 0; i < imageUrls.length; i++) {
+      data['image_$i'] = imageUrls[i];
+    }
+    await _firebaseService.saveCustomData(data);
   }
 
   @override

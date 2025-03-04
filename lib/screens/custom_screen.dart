@@ -20,6 +20,12 @@ class _CustomScreenState extends State<CustomScreen> {
   };
 
   @override
+  void initState() {
+    super.initState();
+    loadData();
+  }
+
+  @override
   void dispose() {
     controllers.forEach((key, controller) => controller.dispose());
     super.dispose();
@@ -30,10 +36,15 @@ class _CustomScreenState extends State<CustomScreen> {
     controllers.forEach((key, value) {
       data[key] = value.text;
     });
-
     await _firebaseService.saveCustomData(data);
-
     ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('Data saved successfully!')));
+  }
+
+  Future<void> loadData() async {
+    final data = await _firebaseService.getCustomData();
+    controllers.forEach((key, controller) {
+      controller.text = data[key] ?? '';
+    });
   }
 
   @override

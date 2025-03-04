@@ -23,7 +23,16 @@ class FirebaseService {
   Future<bool> verifyAccess(String uid) async {
     try {
       DocumentSnapshot userDoc = await _firestore.collection('users').doc(uid).get();
-      return userDoc.exists;
+      if (userDoc.exists) {
+        // NFC 칩을 통해 접속했는지 확인하는 로직 추가
+        // 예: 특정 쿠키나 세션 정보를 확인
+        // 아래는 예시 코드입니다. 실제 환경에 맞게 수정해야 합니다.
+        final prefs = await SharedPreferences.getInstance();
+        bool isFromNFC = prefs.getBool('isFromNFC') ?? false;
+        return isFromNFC;
+      } else {
+        return false;
+      }
     } catch (e) {
       print('Error verifying access: $e');
       return false;
