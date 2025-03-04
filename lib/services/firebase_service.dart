@@ -24,7 +24,6 @@ class FirebaseService {
     try {
       DocumentSnapshot userDoc = await _firestore.collection('users').doc(uid).get();
       if (userDoc.exists) {
-        // NFC 칩을 통해 접속했는지 확인하는 로직 추가
         final prefs = await SharedPreferences.getInstance();
         bool isFromNFC = prefs.getBool('isFromNFC') ?? false;
         return isFromNFC;
@@ -38,33 +37,45 @@ class FirebaseService {
   }
 
   Future<void> saveCustomData(Map<String, String> data) async {
-    final uid = await getOrCreateUID();
-    await _firestore.collection('users').doc(uid).set({
-      'createdAt': DateTime.now(),
-      'customData': data, // 이 부분을 추가
-    }, SetOptions(merge: true));
+    try {
+      final uid = await getOrCreateUID();
+      await _firestore.collection('users').doc(uid).set({
+        'createdAt': DateTime.now(),
+        'customData': data,
+      }, SetOptions(merge: true));
+    } catch (e) {
+      print('Error saving custom data: $e');
+    }
   }
 
-  Future<String> uploadImage(html.File file) async {
-    final fileName = DateTime.now().millisecondsSinceEpoch.toString();
-    final destination = 'images/$fileName';
-
-    final ref = _storage.ref(destination);
-    final metadata = firebase_storage.SettableMetadata(
-      contentType: 'image/jpeg',
-      customMetadata: {'picked-file-path': fileName},
-    );
-    final uploadTask = ref.putBlob(file, metadata);
-
-    final snapshot = await uploadTask.whenComplete(() {});
-    final downloadUrl = await snapshot.ref.getDownloadURL();
-    print('Download URL: $downloadUrl');
-    return downloadUrl;
+  Future<String?> uploadImage(html.File file) async {
+    try {
+      final fileName = DateTime.now().millisecondsSinceEpoch.toString();
+      final destination = 'images/$fileName';
+      final ref = _storage.ref(destination);
+      final metadata = firebase_storage.SettableMetadata(
+        contentType: 'image/jpeg',
+        customMetadata: {'picked-file-path': fileName},
+      );
+      final uploadTask = ref.putBlob(file, metadata);
+      final snapshot = await uploadTask.whenComplete(() {});
+      final downloadUrl = await snapshot.ref.getDownloadURL();
+      print('Download URL: $downloadUrl');
+      return downloadUrl;
+    } catch (e) {
+      print('Error uploading image: $e');
+      return null; // 오류 발생 시 null 반환
+    }
   }
 
   Future<Map<String, dynamic>> getCustomData() async {
-    final uid = await getOrCreateUID();
-    DocumentSnapshot snapshot = await _firestore.collection(Constants.customDataCollection).doc(uid).get();
-    return snapshot.data() as Map<String, dynamic>? ?? {};
+    try {
+      final uid = await getOrCreateUID();
+      DocumentSnapshot snapshot = await _firestore.collection('users').doc(uid).get();
+      return snapshot.data() as Map<String, dynamic>? ?? {};
+    } catch (e) {
+      print('Error getting custom data: $e');
+      return {};
+    }
   }
 }
