@@ -21,9 +21,24 @@ class _MainScreenState extends State<MainScreen> {
   }
 
   Future<void> checkAccess() async {
-    final uid = await _firebaseService.getOrCreateUID();
-    bool isValid = await _firebaseService.verifyAccess(uid);
-    if (!isValid) {
+    try {
+      final uid = await _firebaseService.getOrCreateUID();
+      print('UID: $uid'); // UID 로깅
+
+      bool isValid = await _firebaseService.verifyAccess(uid);
+      print('isValid: $isValid'); // 유효성 로깅
+
+      if (!isValid) {
+        print('Access denied, navigating to ErrorScreen'); // 접근 거부 로깅
+        Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(builder: (context) => ErrorScreen()),
+        );
+      } else {
+        print('Access granted, staying on MainScreen'); // 접근 허용 로깅
+      }
+    } catch (e) {
+      print('Error checking access: $e'); // 오류 로깅
       Navigator.pushReplacement(
         context,
         MaterialPageRoute(builder: (context) => ErrorScreen()),

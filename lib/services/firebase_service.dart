@@ -34,10 +34,9 @@ class FirebaseService {
     final uid = await getOrCreateUID();
     await _firestore.collection('users').doc(uid).set({
       'createdAt': DateTime.now(),
-      'customData': data,  // 이 부분을 추가
+      'customData': data, // 이 부분을 추가
     }, SetOptions(merge: true));
   }
-
 
   Future<String> uploadImage(html.File file) async {
     final fileName = DateTime.now().millisecondsSinceEpoch.toString();
@@ -52,7 +51,6 @@ class FirebaseService {
 
     final snapshot = await uploadTask.whenComplete(() {});
     final downloadUrl = await snapshot.ref.getDownloadURL();
-
     print('Download URL: $downloadUrl');
     return downloadUrl;
   }
