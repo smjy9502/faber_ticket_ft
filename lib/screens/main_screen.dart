@@ -22,32 +22,29 @@ class _MainScreenState extends State<MainScreen> {
     checkAccess();
   }
 
-  // NFC 칩 접속 시 'isFromNFC' 값을 'true'로 설정
   Future<void> setNFCFlag() async {
     final prefs = await SharedPreferences.getInstance();
     await prefs.setBool('isFromNFC', true);
   }
 
-
   Future<void> checkAccess() async {
     try {
       final uid = await _firebaseService.getOrCreateUID();
-      print('UID: $uid'); // UID 로깅
-
+      print('UID: $uid');
       bool isValid = await _firebaseService.verifyAccess(uid);
-      print('isValid: $isValid'); // 유효성 로깅
+      print('isValid: $isValid');
 
       if (!isValid) {
-        print('Access denied, navigating to ErrorScreen'); // 접근 거부 로깅
+        print('Access denied, navigating to ErrorScreen');
         Navigator.pushReplacement(
           context,
           MaterialPageRoute(builder: (context) => ErrorScreen()),
         );
       } else {
-        print('Access granted, staying on MainScreen'); // 접근 허용 로깅
+        print('Access granted, staying on MainScreen');
       }
     } catch (e) {
-      print('Error checking access: $e'); // 오류 로깅
+      print('Error checking access: $e');
       Navigator.pushReplacement(
         context,
         MaterialPageRoute(builder: (context) => ErrorScreen()),
