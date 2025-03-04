@@ -34,19 +34,27 @@ class _CustomScreenState extends State<CustomScreen> {
   }
 
   Future<void> saveData() async {
-    Map<String, String> data = {};
-    controllers.forEach((key, value) {
-      data[key] = value.text;
-    });
-    await _firebaseService.saveCustomData(data);
-    ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('Data saved successfully!')));
+    try {
+      Map<String, String> data = {};
+      controllers.forEach((key, value) {
+        data[key] = value.text;
+      });
+      await _firebaseService.saveCustomData(data);
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('Data saved successfully!')));
+    } catch (e) {
+      print('Error saving data: $e');
+    }
   }
 
   Future<void> loadData() async {
-    final data = await _firebaseService.getCustomData();
-    controllers.forEach((key, controller) {
-      controller.text = data[key] ?? '';
-    });
+    try {
+      final data = await _firebaseService.getCustomData();
+      controllers.forEach((key, controller) {
+        controller.text = data[key] ?? '';
+      });
+    } catch (e) {
+      print('Error loading data: $e');
+    }
   }
 
   @override

@@ -46,7 +46,7 @@ class _PhotoScreenState extends State<PhotoScreen> {
           final ref = FirebaseStorage.instance.ref().child('images/${DateTime.now().millisecondsSinceEpoch}');
           final uploadTask = ref.putData(bytes);
 
-          final snapshot = await uploadTask;
+          final snapshot = await uploadTask.whenComplete(() {});
           final downloadUrl = await snapshot.ref.getDownloadURL();
 
           setState(() {
@@ -61,7 +61,6 @@ class _PhotoScreenState extends State<PhotoScreen> {
   }
 
   Future<void> saveImages() async {
-    // imageUrls를 String으로 변환하여 저장
     Map<String, String> data = {};
     for (int i = 0; i < imageUrls.length; i++) {
       data['image_$i'] = imageUrls[i];
