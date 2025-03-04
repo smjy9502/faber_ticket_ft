@@ -20,6 +20,7 @@ dependencies:
   shared_preferences: ^2.2.1
   uuid: ^3.0.7
   nfc_manager: ^3.5.0
+  firebase_auth: ^5.5.1
 #dependency_overrides:
 #  firebase_core_platform_interface: ^5.4.0
 #

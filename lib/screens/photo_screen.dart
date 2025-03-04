@@ -40,13 +40,14 @@ class _PhotoScreenState extends State<PhotoScreen> {
           final file = input.files![i];
           final downloadUrl = await _firebaseService.uploadImage(file);
           setState(() {
-            imageUrls[i] = downloadUrl!;
+            imageUrls[i] = downloadUrl;
           });
         }
         await saveImages();
       }
     } catch (e) {
       print('Error uploading image: $e');
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('Error uploading image: $e')));
     }
   }
 

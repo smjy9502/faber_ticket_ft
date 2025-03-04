@@ -3,20 +3,38 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'dart:html' as html;
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:uuid/uuid.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
 class FirebaseService {
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
   final firebase_storage.FirebaseStorage _storage = firebase_storage.FirebaseStorage.instance;
+  final FirebaseAuth _auth = FirebaseAuth.instance;
+
+  Future<String?> getAuthenticatedUID() async {
+    final user = _auth.currentUser;
+    if (user == null) {
+      // 익명 로그인 시도
+      try {
+        final userCredential = await _auth.signInAnonymously();
+        return userCredential.user?.uid;
+      } catch (e) {
+        print('Error signing in anonymously: $e');
+        return null;
+      }
+    }
+    return user.uid;
+  }
 
   Future<String> getOrCreateUID() async {
-    final prefs = await SharedPreferences.getInstance();
-    String? uid = prefs.getString('user_uid');
-    if (uid == null) {
-      uid = Uuid().v4();
+    final uid = await getAuthenticatedUID();
+    if (uid != null) {
+      final prefs = await SharedPreferences.getInstance();
       await prefs.setString('user_uid', uid);
-      await _firestore.collection('users').doc(uid).set({'createdAt': FieldValue.serverTimestamp()});
+      await _firestore.collection('users').doc(uid).set({'createdAt': FieldValue.serverTimestamp()}, SetOptions(merge: true));
+      return uid;
+    } else {
+      throw Exception('Failed to get or create UID');
     }
-    return uid;
   }
 
   Future<bool> verifyAccess(String uid) async {
@@ -35,7 +53,7 @@ class FirebaseService {
     }
   }
 
-  Future<void> saveCustomData(Map<String, dynamic> data) async {
+  Future<void> saveCustomData(Map<String, String> data) async {
     final uid = await getOrCreateUID();
     await _firestore.collection('users').doc(uid).set({
       'customData': data,
@@ -48,14 +66,18 @@ class FirebaseService {
     final fileName = '${DateTime.now().millisecondsSinceEpoch}_${file.name}';
     final destination = 'images/$uid/$fileName';
     final ref = _storage.ref(destination);
-    final uploadTask = ref.putBlob(file);
-    final snapshot = await uploadTask;
+    final metadata = firebase_storage.SettableMetadata(
+      contentType: 'image/jpeg',
+      customMetadata: {'picked-file-path': fileName},
+    );
+    final uploadTask = ref.putBlob(file, metadata);
+    final snapshot = await uploadTask.whenComplete(() {});
     return await snapshot.ref.getDownloadURL();
   }
 
   Future<Map<String, dynamic>> getCustomData() async {
     final uid = await getOrCreateUID();
-    final doc = await _firestore.collection('users').doc(uid).get();
-    return doc.data()?['customData'] ?? {};
+    DocumentSnapshot snapshot = await _firestore.collection('users').doc(uid).get();
+    return snapshot.data() as Map<String, dynamic>? ?? {};
   }
 }
