@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:faber_ticket_ft/services/firebase_service.dart';
-import 'package:faber_ticket_ft/utils/constants.dart';
 
 class CustomScreen extends StatefulWidget {
   @override
@@ -9,7 +8,6 @@ class CustomScreen extends StatefulWidget {
 
 class _CustomScreenState extends State<CustomScreen> {
   final FirebaseService _firebaseService = FirebaseService();
-
   final Map<String, TextEditingController> controllers = {
     'Title': TextEditingController(),
     'Release': TextEditingController(),
@@ -35,11 +33,7 @@ class _CustomScreenState extends State<CustomScreen> {
 
     await _firebaseService.saveCustomData(data);
 
-    // 데이터 저장 후 사용자에게 알림
     ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('Data saved successfully!')));
-
-    // 입력 필드 초기화
-    controllers.forEach((key, controller) => controller.clear());
   }
 
   @override
@@ -47,18 +41,94 @@ class _CustomScreenState extends State<CustomScreen> {
     return Scaffold(
       appBar: AppBar(title: Text('Custom Screen')),
       body: SingleChildScrollView(
-        child: Column(
-          children: [
-            ...controllers.keys.map((title) => Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: TextField(
-                controller: controllers[title],
-                decoration: InputDecoration(labelText: title),
+        child: Padding(
+          padding: const EdgeInsets.all(16.0),
+          child: Table(
+            columnWidths: {
+              0: FixedColumnWidth(100),
+              1: FlexColumnWidth(),
+            },
+            border: TableBorder.all(color: Colors.grey),
+            children: [
+              TableRow(
+                children: [
+                  TableCell(child: Center(child: Text('Title'))),
+                  TableCell(child: Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: TextField(controller: controllers['Title']),
+                  )),
+                ],
               ),
-            )),
-            ElevatedButton(onPressed: saveData, child: Text('Save')),
-          ],
+              TableRow(
+                children: [
+                  TableCell(child: Center(child: Text('Release'))),
+                  TableCell(child: Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: TextField(controller: controllers['Release']),
+                  )),
+                ],
+              ),
+              TableRow(
+                children: [
+                  TableCell(child: Center(child: Text('Director'))),
+                  TableCell(child: Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: TextField(controller: controllers['Director']),
+                  )),
+                ],
+              ),
+              TableRow(
+                children: [
+                  TableCell(child: Center(child: Text('Cast'))),
+                  TableCell(child: Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: TextField(controller: controllers['Cast']),
+                  )),
+                ],
+              ),
+              TableRow(
+                children: [
+                  TableCell(child: Center(child: Text('Review'))),
+                  TableCell(child: Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: TextField(controller: controllers['Review']),
+                  )),
+                ],
+              ),
+              TableRow(
+                children: [
+                  TableCell(child: Center(child: Text('Date'))),
+                  TableCell(child: Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: TextField(controller: controllers['Date']),
+                  )),
+                ],
+              ),
+              TableRow(
+                children: [
+                  TableCell(child: Center(child: Text('Time'))),
+                  TableCell(child: Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: TextField(controller: controllers['Time']),
+                  )),
+                ],
+              ),
+              TableRow(
+                children: [
+                  TableCell(child: Center(child: Text('Theater'))),
+                  TableCell(child: Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: TextField(controller: controllers['Theater']),
+                  )),
+                ],
+              ),
+            ],
+          ),
         ),
+      ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: saveData,
+        child: Icon(Icons.save),
       ),
     );
   }

@@ -32,8 +32,12 @@ class FirebaseService {
 
   Future<void> saveCustomData(Map<String, String> data) async {
     final uid = await getOrCreateUID();
-    await _firestore.collection(Constants.customDataCollection).doc(uid).set(data, SetOptions(merge: true));
+    await _firestore.collection('users').doc(uid).set({
+      'createdAt': DateTime.now(),
+      'customData': data,  // 이 부분을 추가
+    }, SetOptions(merge: true));
   }
+
 
   Future<String> uploadImage(html.File file) async {
     final fileName = DateTime.now().millisecondsSinceEpoch.toString();
