@@ -6,6 +6,7 @@ import 'package:faber_ticket_ft/widgets/custom_button.dart';
 import 'package:faber_ticket_ft/services/firebase_service.dart';
 import 'error_screen.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:nfc_manager/nfc_manager.dart';
 
 class MainScreen extends StatefulWidget {
   @override
@@ -18,33 +19,27 @@ class _MainScreenState extends State<MainScreen> {
   @override
   void initState() {
     super.initState();
-    setNFCFlag();
-    checkAccess();
+    checkNFCAccess();
   }
 
-  Future<void> setNFCFlag() async {
-    final prefs = await SharedPreferences.getInstance();
-    await prefs.setBool('isFromNFC', true);
-  }
-
-  Future<void> checkAccess() async {
-    try {
-      final uid = await _firebaseService.getOrCreateUID();
-      print('UID: $uid');
-      bool isValid = await _firebaseService.verifyAccess(uid);
-      print('isValid: $isValid');
-
-      if (!isValid) {
-        print('Access denied, navigating to ErrorScreen');
-        Navigator.pushReplacement(
-          context,
-          MaterialPageRoute(builder: (context) => ErrorScreen()),
-        );
-      } else {
-        print('Access granted, staying on MainScreen');
-      }
-    } catch (e) {
-      print('Error checking access: $e');
+  Future<void> checkNFCAccess() async {
+    bool isAvailable = await NfcManager.instance.isAvailable();
+    if (isAvailable) {
+      NfcManager.instance.startSession(onDiscovered: (NfcTag tag) async {
+        final uid = await _firebaseService.getOrCreateUID();
+        bool isValid = await _firebaseService.verifyAccess(uid);
+        if (isValid) {
+          print('Access granted, staying on MainScreen');
+        } else {
+          print('Access denied, navigating to ErrorScreen');
+          Navigator.pushReplacement(
+            context,
+            MaterialPageRoute(builder: (context) => ErrorScreen()),
+          );
+        }
+      });
+    } else {
+      print('NFC not available');
       Navigator.pushReplacement(
         context,
         MaterialPageRoute(builder: (context) => ErrorScreen()),

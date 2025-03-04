@@ -19,6 +19,7 @@ dependencies:
   firebase_storage_web: ^3.6.2
   shared_preferences: ^2.2.1
   uuid: ^3.0.7
+  nfc_manager: ^3.5.0
 
 dependency_overrides:
   firebase_core_platform_interface: 4.8.0
