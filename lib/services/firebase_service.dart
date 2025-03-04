@@ -1,5 +1,6 @@
 import 'package:firebase_storage/firebase_storage.dart' as firebase_storage;
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'dart:html' as html;
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:uuid/uuid.dart';
@@ -55,7 +56,7 @@ class FirebaseService {
       final fileName = DateTime.now().millisecondsSinceEpoch.toString();
       final destination = 'images/$fileName';
       final ref = _storage.ref(destination);
-      final metadata = firebase_storage.SettableMetadata(
+      final metadata = SettableMetadata(
         contentType: 'image/jpeg',
         customMetadata: {'picked-file-path': fileName},
       );
@@ -69,6 +70,7 @@ class FirebaseService {
       return null; // 오류 발생 시 null 반환
     }
   }
+
 
   Future<Map<String, dynamic>> getCustomData() async {
     try {
