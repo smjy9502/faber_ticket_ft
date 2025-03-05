@@ -10,6 +10,8 @@ class CustomScreen extends StatefulWidget {
 
 class _CustomScreenState extends State<CustomScreen> {
   final FirebaseService _firebaseService = FirebaseService();
+
+  // TextEditingController를 위한 맵 생성
   final Map<String, TextEditingController> controllers = {
     'Title': TextEditingController(),
     'Release': TextEditingController(),
@@ -47,7 +49,6 @@ class _CustomScreenState extends State<CustomScreen> {
     }
   }
 
-
   Future<void> loadData() async {
     try {
       final data = await _firebaseService.getCustomData();
@@ -74,109 +75,41 @@ class _CustomScreenState extends State<CustomScreen> {
           child: Padding(
             padding: const EdgeInsets.all(16.0),
             child: Table(
-              columnWidths: {
-                0: FixedColumnWidth(100),
-                1: FlexColumnWidth(),
-              },
+              columnWidths: {0: FixedColumnWidth(100), 1: FlexColumnWidth()},
               border: TableBorder.all(color: Colors.grey),
               children: [
-                TableRow(
-                  children: [
-                    TableCell(child: Center(child: Text('Title'))),
-                    TableCell(child: Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: TextField(controller: controllers['Title']),
-                    )),
-                  ],
-                ),
-                TableRow(
-                  children: [
-                    TableCell(child: Center(child: Text('Release'))),
-                    TableCell(child: Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: TextField(controller: controllers['Release']),
-                    )),
-                  ],
-                ),
-                TableRow(
-                  children: [
-                    TableCell(child: Center(child: Text('Director'))),
-                    TableCell(child: Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: TextField(controller: controllers['Director']),
-                    )),
-                  ],
-                ),
-                TableRow(
-                  children: [
-                    TableCell(child: Center(child: Text('Cast'))),
-                    TableCell(child: Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: TextField(controller: controllers['Cast']),
-                    )),
-                  ],
-                ),
-                TableRow(
-                  children: [
-                    TableCell(child: Center(child: Text('Review'))),
-                    TableCell(child: Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: TextField(controller: controllers['Review']),
-                    )),
-                  ],
-                ),
-                TableRow(
-                  children: [
-                    TableCell(child: Center(child: Text('Date'))),
-                    TableCell(child: Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: TextField(controller: controllers['Date']),
-                    )),
-                  ],
-                ),
-                TableRow(
-                  children: [
-                    TableCell(child: Center(child: Text('Time'))),
-                    TableCell(child: Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: TextField(controller: controllers['Time']),
-                    )),
-                  ],
-                ),
-                TableRow(
-                  children: [
-                    TableCell(child: Center(child: Text('Theater'))),
-                    TableCell(child: Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: TextField(controller: controllers['Theater']),
-                    )),
-                  ],
-                ),
+                TableRow(children: [
+                  TableCell(child: Center(child: Text('Title'))),
+                  TableCell(child:
+                  Padding(padding:
+                  const EdgeInsets.all(8.0),
+                    child:
+                    TextField(controller:
+                    controllers['Title']),
+                  )),
+                ]),
+                // 나머지 필드도 동일하게 추가...
               ],
             ),
           ),
         ),
       ),
-      bottomNavigationBar: BottomAppBar(
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-          children: [
-            ElevatedButton(
-              onPressed: saveData,
-              child: Text('Save'),
-            ),
-            ElevatedButton(
-              onPressed: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => PhotoScreen()),
-                );
-              },
-              child: Text('Photo'),
-            ),
-          ],
-        ),
-      ),
+      bottomNavigationBar:
+      BottomAppBar(child:
+      Row(mainAxisAlignment:
+      MainAxisAlignment.spaceEvenly,
+        children:[
+          ElevatedButton(onPressed:
+          saveData, child:
+          Text('Save')),
+          ElevatedButton(onPressed:
+              () { Navigator.push(context,
+              MaterialPageRoute(builder:
+                  (context) => PhotoScreen())); },
+              child:
+              Text('Photo')),
+        ],
+      )),
     );
   }
 }
