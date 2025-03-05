@@ -53,7 +53,7 @@ class FirebaseService {
     }
   }
 
-  Future<void> saveCustomData(Map<String, String> data) async {
+  Future<void> saveCustomData(Map<String, dynamic> data) async {
     final uid = await getOrCreateUID();
     await _firestore.collection('users').doc(uid).set({
       'customData': data,
@@ -78,6 +78,10 @@ class FirebaseService {
   Future<Map<String, dynamic>> getCustomData() async {
     final uid = await getOrCreateUID();
     DocumentSnapshot snapshot = await _firestore.collection('users').doc(uid).get();
-    return snapshot.data() as Map<String, dynamic>? ?? {};
+    if (!snapshot.exists) {
+      return {};
+    }
+    Map<String, dynamic> data = snapshot.data() as Map<String, dynamic>;
+    return data['customData'] as Map<String, dynamic>? ?? {};
   }
 }

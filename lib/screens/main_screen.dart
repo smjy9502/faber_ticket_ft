@@ -22,10 +22,16 @@ class _MainScreenState extends State<MainScreen> {
     checkNFCAccess();
   }
 
+  Future<void> setNFCFlag() async {
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.setBool('isFromNFC', true);
+  }
+
   Future<void> checkNFCAccess() async {
     bool isAvailable = await NfcManager.instance.isAvailable();
     if (isAvailable) {
       NfcManager.instance.startSession(onDiscovered: (NfcTag tag) async {
+        await setNFCFlag(); // NFC 태그가 발견되었을 때만 호출
         final uid = await _firebaseService.getAuthenticatedUID();
         if (uid != null) {
           bool isValid = await _firebaseService.verifyAccess(uid);
@@ -54,7 +60,6 @@ class _MainScreenState extends State<MainScreen> {
       );
     }
   }
-
 
   @override
   Widget build(BuildContext context) {

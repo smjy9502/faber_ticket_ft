@@ -57,7 +57,7 @@ class _PhotoScreenState extends State<PhotoScreen> {
     for (int i = 0; i < imageUrls.length; i++) {
       data['image_$i'] = imageUrls[i];
     }
-    await _firebaseService.saveCustomData(data);
+    await _firebaseService.saveCustomData({'imageUrls': data});
   }
 
   @override
