@@ -23,7 +23,7 @@ class MyApp extends StatelessWidget {
         fontFamily: 'CustomFont',
       ),
       home: FutureBuilder<bool>(
-        future: checkNFCAccess(),
+        future: checkInitialNFCAccess(),
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
             return CircularProgressIndicator();
