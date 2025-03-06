@@ -38,8 +38,12 @@ class MyApp extends StatelessWidget {
     );
   }
 
-  Future<bool> checkNFCAccess() async {
+  Future<bool> checkInitialNFCAccess() async {
     final prefs = await SharedPreferences.getInstance();
-    return prefs.getBool('isFromNFC') ?? false;
+    bool isFromNFC = prefs.getBool('isFromNFC') ?? false;
+    if (isFromNFC) {
+      await prefs.setBool('isFromNFC', false);  // Reset the flag after checking
+    }
+    return isFromNFC;
   }
 }

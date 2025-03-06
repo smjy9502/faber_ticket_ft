@@ -22,11 +22,6 @@ class _MainScreenState extends State<MainScreen> {
     checkNFCAccess();
   }
 
-  Future<void> setNFCFlag() async {
-    final prefs = await SharedPreferences.getInstance();
-    await prefs.setBool('isFromNFC', true);
-  }
-
   Future<void> checkNFCAccess() async {
     bool isAvailable = await NfcManager.instance.isAvailable();
     if (isAvailable) {
@@ -59,6 +54,11 @@ class _MainScreenState extends State<MainScreen> {
         MaterialPageRoute(builder: (context) => ErrorScreen()),
       );
     }
+  }
+
+  Future<void> setNFCFlag() async {
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.setBool('isFromNFC', true);
   }
 
 
