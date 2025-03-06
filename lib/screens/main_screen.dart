@@ -5,8 +5,8 @@ import 'package:faber_ticket_ft/screens/song_screen.dart';
 import 'package:faber_ticket_ft/widgets/custom_button.dart';
 import 'package:faber_ticket_ft/services/firebase_service.dart';
 import 'error_screen.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 import 'package:nfc_manager/nfc_manager.dart';
+import 'dart:html' as html;
 
 class MainScreen extends StatefulWidget {
   @override
@@ -19,40 +19,21 @@ class _MainScreenState extends State<MainScreen> {
   @override
   void initState() {
     super.initState();
-    // setNFCFlag();
     checkNFCAccess();
   }
 
   Future<void> setNFCFlag() async {
-    final prefs = await SharedPreferences.getInstance();
-    await prefs.setBool('isFromNFC', true);
+    html.window.localStorage['isFromNFC'] = 'true';
+    print('NFC flag set: ${html.window.localStorage['isFromNFC']}');
   }
 
   Future<void> checkNFCAccess() async {
     bool isAvailable = await NfcManager.instance.isAvailable();
     if (isAvailable) {
       NfcManager.instance.startSession(onDiscovered: (NfcTag tag) async {
-        await setNFCFlag(); // NFC 태그가 감지되었을 때 호출
-        // NFC 태그가 감지되면 여기서 처리
-        final uid = await _firebaseService.getAuthenticatedUID();
-        if (uid != null) {
-          bool isValid = await _firebaseService.verifyAccess(uid);
-          if (isValid) {
-            print('Access granted, staying on MainScreen');
-          } else {
-            print('Access denied, navigating to ErrorScreen');
-            Navigator.pushReplacement(
-              context,
-              MaterialPageRoute(builder: (context) => ErrorScreen()),
-            );
-          }
-        } else {
-          print('User not authenticated');
-          Navigator.pushReplacement(
-            context,
-            MaterialPageRoute(builder: (context) => ErrorScreen()),
-          );
-        }
+        await setNFCFlag();
+        setState(() {}); // 화면 갱신을 위해 추가
+        print('NFC tag detected and flag set');
       });
     } else {
       print('NFC not available');
