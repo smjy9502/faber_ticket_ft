@@ -39,17 +39,7 @@ class _PhotoScreenState extends State<PhotoScreen> {
       if (input.files!.isNotEmpty) {
         for (var i = 0; i < input.files!.length && i < 9; i++) {
           final file = input.files![i];
-          final reader = html.FileReader();
-          reader.readAsArrayBuffer(file);
-          await reader.onLoad.first;
-
-          final bytes = reader.result as Uint8List;
-          final ref = FirebaseStorage.instance.ref().child('images/${DateTime.now().millisecondsSinceEpoch}');
-          final uploadTask = ref.putData(bytes);
-
-          final snapshot = await uploadTask.whenComplete(() {});
-          final downloadUrl = await snapshot.ref.getDownloadURL();
-
+          final downloadUrl = await _firebaseService.uploadImage(file);
           setState(() {
             imageUrls[i] = downloadUrl;
           });
@@ -60,6 +50,7 @@ class _PhotoScreenState extends State<PhotoScreen> {
       print('Error uploading image: $e');
     }
   }
+
 
   Future<void> saveImages() async {
     await _firebaseService.saveCustomData({'imageUrls': imageUrls});
