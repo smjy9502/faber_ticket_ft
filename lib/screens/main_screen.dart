@@ -19,7 +19,7 @@ class _MainScreenState extends State<MainScreen> {
   @override
   void initState() {
     super.initState();
-    setNFCFlag();
+    // setNFCFlag();
     checkNFCAccess();
   }
 
@@ -32,6 +32,7 @@ class _MainScreenState extends State<MainScreen> {
     bool isAvailable = await NfcManager.instance.isAvailable();
     if (isAvailable) {
       NfcManager.instance.startSession(onDiscovered: (NfcTag tag) async {
+        await setNFCFlag(); // NFC 태그가 감지되었을 때 호출
         // NFC 태그가 감지되면 여기서 처리
         final uid = await _firebaseService.getAuthenticatedUID();
         if (uid != null) {
