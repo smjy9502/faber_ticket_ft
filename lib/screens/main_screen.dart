@@ -32,13 +32,37 @@ class _MainScreenState extends State<MainScreen> {
     bool isAvailable = await NfcManager.instance.isAvailable();
     if (isAvailable) {
       NfcManager.instance.startSession(onDiscovered: (NfcTag tag) async {
-        await setNFCFlag();
-        print('NFC tag detected and flag set');
+        final uid = await _firebaseService.getAuthenticatedUID();
+        if (uid != null) {
+          bool isValid = await _firebaseService.verifyAccess(uid);
+          if (isValid) {
+            final prefs = await SharedPreferences.getInstance();
+            await prefs.setBool('isFromNFC', true);
+            print('Access granted, staying on MainScreen');
+          } else {
+            print('Access denied, navigating to ErrorScreen');
+            Navigator.pushReplacement(
+              context,
+              MaterialPageRoute(builder: (context) => ErrorScreen()),
+            );
+          }
+        } else {
+          print('User not authenticated');
+          Navigator.pushReplacement(
+            context,
+            MaterialPageRoute(builder: (context) => ErrorScreen()),
+          );
+        }
       });
     } else {
       print('NFC not available');
+      Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(builder: (context) => ErrorScreen()),
+      );
     }
   }
+
 
   @override
   Widget build(BuildContext context) {

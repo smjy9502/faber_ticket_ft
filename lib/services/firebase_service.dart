@@ -13,7 +13,6 @@ class FirebaseService {
   Future<String?> getAuthenticatedUID() async {
     final user = _auth.currentUser;
     if (user == null) {
-      // 익명 로그인 시도
       try {
         final userCredential = await _auth.signInAnonymously();
         return userCredential.user?.uid;
@@ -24,6 +23,7 @@ class FirebaseService {
     }
     return user.uid;
   }
+
 
   Future<String> getOrCreateUID() async {
     final uid = await getAuthenticatedUID();
@@ -40,18 +40,13 @@ class FirebaseService {
   Future<bool> verifyAccess(String uid) async {
     try {
       DocumentSnapshot userDoc = await _firestore.collection('users').doc(uid).get();
-      if (userDoc.exists) {
-        final prefs = await SharedPreferences.getInstance();
-        bool isFromNFC = prefs.getBool('isFromNFC') ?? false;
-        return isFromNFC;
-      } else {
-        return false;
-      }
+      return userDoc.exists;
     } catch (e) {
       print('Error verifying access: $e');
       return false;
     }
   }
+
 
   Future<void> saveCustomData(Map<String, dynamic> data) async {
     final uid = await getOrCreateUID();
