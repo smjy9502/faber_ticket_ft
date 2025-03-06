@@ -3,6 +3,8 @@ import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'dart:html' as html;
 import 'package:faber_ticket_ft/services/firebase_service.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+
 
 class PhotoScreen extends StatefulWidget {
   @override
@@ -10,7 +12,7 @@ class PhotoScreen extends StatefulWidget {
 }
 
 class _PhotoScreenState extends State<PhotoScreen> {
-  final FirebaseService _firebaseService = FirebaseService();
+  // final FirebaseService _firebaseService = FirebaseService();
   List<String> imageUrls = List.filled(9, '');
 
   @override
@@ -20,12 +22,10 @@ class _PhotoScreenState extends State<PhotoScreen> {
   }
 
   Future<void> loadImages() async {
-    final data = await _firebaseService.getCustomData();
-    if (data['imageUrls'] != null) {
-      setState(() {
-        imageUrls = List<String>.from(data['imageUrls']);
-      });
-    }
+    final prefs = await SharedPreferences.getInstance();
+    setState(() {
+      imageUrls = prefs.getStringList('imageUrls') ?? List.filled(9, '');
+    });
   }
 
   Future<void> _uploadImages() async {
@@ -61,11 +61,8 @@ class _PhotoScreenState extends State<PhotoScreen> {
   }
 
   Future<void> saveImages() async {
-    Map<String, String> data = {};
-    for (int i = 0; i < imageUrls.length; i++) {
-      data['image_$i'] = imageUrls[i];
-    }
-    await _firebaseService.saveCustomData({'imageUrls': data}); // Firestore에 저장
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.setStringList('imageUrls', imageUrls);
   }
 
   @override
