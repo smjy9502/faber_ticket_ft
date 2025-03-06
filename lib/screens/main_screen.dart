@@ -5,8 +5,8 @@ import 'package:faber_ticket_ft/screens/song_screen.dart';
 import 'package:faber_ticket_ft/widgets/custom_button.dart';
 import 'package:faber_ticket_ft/services/firebase_service.dart';
 import 'error_screen.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:nfc_manager/nfc_manager.dart';
-import 'dart:html' as html;
 
 class MainScreen extends StatefulWidget {
   @override
@@ -19,12 +19,13 @@ class _MainScreenState extends State<MainScreen> {
   @override
   void initState() {
     super.initState();
+    setNFCFlag();
     checkNFCAccess();
   }
 
   Future<void> setNFCFlag() async {
-    html.window.localStorage['isFromNFC'] = 'true';
-    print('NFC flag set: ${html.window.localStorage['isFromNFC']}');
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.setBool('isFromNFC', true);
   }
 
   Future<void> checkNFCAccess() async {
@@ -32,15 +33,10 @@ class _MainScreenState extends State<MainScreen> {
     if (isAvailable) {
       NfcManager.instance.startSession(onDiscovered: (NfcTag tag) async {
         await setNFCFlag();
-        setState(() {}); // 화면 갱신을 위해 추가
         print('NFC tag detected and flag set');
       });
     } else {
       print('NFC not available');
-      Navigator.pushReplacement(
-        context,
-        MaterialPageRoute(builder: (context) => ErrorScreen()),
-      );
     }
   }
 

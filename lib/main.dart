@@ -28,10 +28,8 @@ class MyApp extends StatelessWidget {
           if (snapshot.connectionState == ConnectionState.waiting) {
             return CircularProgressIndicator();
           } else if (snapshot.data == true) {
-            print('NFC access granted');
             return MainScreen();
           } else {
-            print('NFC access denied');
             return ErrorScreen();
           }
         },
@@ -41,15 +39,7 @@ class MyApp extends StatelessWidget {
   }
 
   Future<bool> checkNFCAccess() async {
-    try {
-      final prefs = await SharedPreferences.getInstance();
-      bool isFromNFC = prefs.getBool('isFromNFC') ?? false;
-      print('isFromNFC: $isFromNFC');
-      return isFromNFC;
-    } catch (e) {
-      print('Error checking NFC access: $e');
-      return false;
-    }
+    final prefs = await SharedPreferences.getInstance();
+    return prefs.getBool('isFromNFC') ?? false;
   }
 }
-
