@@ -13,14 +13,13 @@ dependencies:
     sdk: flutter
   image_picker_for_web: ^3.0.6
   youtube_player_iframe: ^2.2.2
-  cloud_firestore: ^4.8.5
-  firebase_core: ^2.15.1
-  firebase_storage: ^11.2.6
-#  firebase_storage_web: ^3.6.2
+  cloud_firestore: ^4.17.5
+  firebase_core: ^2.32.0
+  firebase_storage: ^11.6.5
   shared_preferences: ^2.2.1
   uuid: ^3.0.7
   nfc_manager: ^3.5.0
-  firebase_auth: ^4.7.3
+  firebase_auth: ^4.16.0
 #dependency_overrides:
 #  firebase_core_platform_interface: ^5.4.0
 #
