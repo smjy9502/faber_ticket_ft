@@ -1,0 +1,16 @@
+{
+  "name": "faber_ticket_ft",
+  "version": "1.0.0",
+  "description": "faber-ticket-for-concert-by-flutter",
+  "main": "index.js",
+  "directories": {
+    "lib": "lib",
+    "test": "test"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC"
+}
