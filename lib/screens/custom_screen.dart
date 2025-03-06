@@ -10,8 +10,6 @@ class CustomScreen extends StatefulWidget {
 
 class _CustomScreenState extends State<CustomScreen> {
   final FirebaseService _firebaseService = FirebaseService();
-
-  // TextEditingController를 위한 맵 생성
   final Map<String, TextEditingController> controllers = {
     'Title': TextEditingController(),
     'Release': TextEditingController(),
@@ -52,8 +50,10 @@ class _CustomScreenState extends State<CustomScreen> {
   Future<void> loadData() async {
     try {
       final data = await _firebaseService.getCustomData();
-      controllers.forEach((key, controller) {
-        controller.text = data[key] ?? '';
+      setState(() {
+        controllers.forEach((key, controller) {
+          controller.text = data[key] ?? '';
+        });
       });
     } catch (e) {
       print('Error loading data: $e');
