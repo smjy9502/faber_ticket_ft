@@ -40,12 +40,18 @@ class FirebaseService {
   Future<bool> verifyAccess(String uid) async {
     try {
       DocumentSnapshot userDoc = await _firestore.collection('users').doc(uid).get();
-      return userDoc.exists;
+      if (userDoc.exists) {
+        final prefs = await SharedPreferences.getInstance();
+        bool isFromNFC = prefs.getBool('isFromNFC') ?? false;
+        return isFromNFC;
+      }
+      return false;
     } catch (e) {
       print('Error verifying access: $e');
       return false;
     }
   }
+
 
 
   Future<void> saveCustomData(Map<String, dynamic> data) async {

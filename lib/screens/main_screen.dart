@@ -19,7 +19,6 @@ class _MainScreenState extends State<MainScreen> {
   @override
   void initState() {
     super.initState();
-    setNFCFlag();
     checkNFCAccess();
   }
 
@@ -32,12 +31,11 @@ class _MainScreenState extends State<MainScreen> {
     bool isAvailable = await NfcManager.instance.isAvailable();
     if (isAvailable) {
       NfcManager.instance.startSession(onDiscovered: (NfcTag tag) async {
+        await setNFCFlag();
         final uid = await _firebaseService.getAuthenticatedUID();
         if (uid != null) {
           bool isValid = await _firebaseService.verifyAccess(uid);
           if (isValid) {
-            final prefs = await SharedPreferences.getInstance();
-            await prefs.setBool('isFromNFC', true);
             print('Access granted, staying on MainScreen');
           } else {
             print('Access denied, navigating to ErrorScreen');
