@@ -26,12 +26,15 @@ class _MainScreenState extends State<MainScreen> {
     bool isAvailable = await NfcManager.instance.isAvailable();
     if (isAvailable) {
       NfcManager.instance.startSession(onDiscovered: (NfcTag tag) async {
+        print("NFC Tag detected!");
         await setNFCFlag();
         final uid = await _firebaseService.getAuthenticatedUID();
         if (uid != null) {
           bool isValid = await _firebaseService.verifyAccess(uid);
           if (isValid) {
             print('Access granted, staying on MainScreen');
+            // 여기서 상태를 업데이트하여 MainScreen을 표시
+            setState(() {});
           } else {
             print('Access denied, navigating to ErrorScreen');
             Navigator.pushReplacement(
@@ -55,10 +58,14 @@ class _MainScreenState extends State<MainScreen> {
       );
     }
   }
+
+
   Future<void> setNFCFlag() async {
     final prefs = await SharedPreferences.getInstance();
     await prefs.setBool('isFromNFC', true);
+    print("NFC Flag set: ${prefs.getBool('isFromNFC')}");
   }
+
 
 
   @override

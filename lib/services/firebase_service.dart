@@ -15,14 +15,17 @@ class FirebaseService {
     if (user == null) {
       try {
         final userCredential = await _auth.signInAnonymously();
+        print("Anonymous user signed in: ${userCredential.user?.uid}");
         return userCredential.user?.uid;
       } catch (e) {
         print('Error signing in anonymously: $e');
         return null;
       }
     }
+    print("Current user UID: ${user.uid}");
     return user.uid;
   }
+
 
 
   Future<String> getOrCreateUID() async {
@@ -40,9 +43,11 @@ class FirebaseService {
   Future<bool> verifyAccess(String uid) async {
     try {
       DocumentSnapshot userDoc = await _firestore.collection('users').doc(uid).get();
+      print("User document exists: ${userDoc.exists}");
       if (userDoc.exists) {
         final prefs = await SharedPreferences.getInstance();
         bool isFromNFC = prefs.getBool('isFromNFC') ?? false;
+        print("Is from NFC: $isFromNFC");
         return isFromNFC;
       }
       return false;
@@ -51,6 +56,7 @@ class FirebaseService {
       return false;
     }
   }
+
 
 
 

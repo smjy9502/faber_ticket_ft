@@ -41,8 +41,10 @@ class MyApp extends StatelessWidget {
   Future<bool> checkInitialNFCAccess() async {
     final prefs = await SharedPreferences.getInstance();
     bool isFromNFC = prefs.getBool('isFromNFC') ?? false;
+    print("Initial NFC access check: $isFromNFC");
     if (isFromNFC) {
-      await prefs.setBool('isFromNFC', false); // Reset the flag after checking
+      await prefs.setBool('isFromNFC', false);
+      print("NFC flag reset");
     }
     return isFromNFC;
   }
