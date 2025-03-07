@@ -22,19 +22,18 @@ class MyApp extends StatelessWidget {
         primarySwatch: Colors.blue,
         fontFamily: 'CustomFont',
       ),
-      home: MainScreen(),
-      // FutureBuilder<bool>(
-      //   future: checkInitialNFCAccess(),
-      //   builder: (context, snapshot) {
-      //     if (snapshot.connectionState == ConnectionState.waiting) {
-      //       return CircularProgressIndicator();
-      //     } else if (snapshot.data == true) {
-      //       return MainScreen();
-      //     } else {
-      //       return ErrorScreen();
-      //     }
-      //   },
-      // ),
+      home: FutureBuilder<bool>(
+        future: checkInitialNFCAccess(),
+        builder: (context, snapshot) {
+          if (snapshot.connectionState == ConnectionState.waiting) {
+            return CircularProgressIndicator();
+          } else if (snapshot.data == true) {
+            return MainScreen();
+          } else {
+            return ErrorScreen();
+          }
+        },
+      ),
       debugShowCheckedModeBanner: false,
     );
   }
@@ -47,7 +46,9 @@ class MyApp extends StatelessWidget {
       await prefs.setBool('isFromNFC', false);
       print("NFC flag reset");
     }
-    return isFromNFC;
+    //NFC칩 없이 임시 테스트용.
+    return true;
+    // return isFromNFC;
   }
 
 }
