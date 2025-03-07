@@ -22,18 +22,19 @@ class MyApp extends StatelessWidget {
         primarySwatch: Colors.blue,
         fontFamily: 'CustomFont',
       ),
-      home: FutureBuilder<bool>(
-        future: checkInitialNFCAccess(),
-        builder: (context, snapshot) {
-          if (snapshot.connectionState == ConnectionState.waiting) {
-            return CircularProgressIndicator();
-          } else if (snapshot.data == true) {
-            return MainScreen();
-          } else {
-            return ErrorScreen();
-          }
-        },
-      ),
+      home: MainScreen(),
+      // FutureBuilder<bool>(
+      //   future: checkInitialNFCAccess(),
+      //   builder: (context, snapshot) {
+      //     if (snapshot.connectionState == ConnectionState.waiting) {
+      //       return CircularProgressIndicator();
+      //     } else if (snapshot.data == true) {
+      //       return MainScreen();
+      //     } else {
+      //       return ErrorScreen();
+      //     }
+      //   },
+      // ),
       debugShowCheckedModeBanner: false,
     );
   }
