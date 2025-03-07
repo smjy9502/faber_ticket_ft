@@ -42,8 +42,9 @@ class MyApp extends StatelessWidget {
     final prefs = await SharedPreferences.getInstance();
     bool isFromNFC = prefs.getBool('isFromNFC') ?? false;
     if (isFromNFC) {
-      await prefs.setBool('isFromNFC', false);  // Reset the flag after checking
+      await prefs.setBool('isFromNFC', false); // Reset the flag after checking
     }
     return isFromNFC;
   }
+
 }

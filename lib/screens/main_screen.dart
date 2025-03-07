@@ -55,7 +55,6 @@ class _MainScreenState extends State<MainScreen> {
       );
     }
   }
-
   Future<void> setNFCFlag() async {
     final prefs = await SharedPreferences.getInstance();
     await prefs.setBool('isFromNFC', true);
