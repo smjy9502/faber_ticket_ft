@@ -48,6 +48,7 @@ flutter:
     - assets/images/setlist_background.jpg
     - assets/images/error_background.jpg
     - assets/images/button_setlist.jpg
+    - assets/images/setlist_player.gif
 
   fonts:
     - family: CustomFont

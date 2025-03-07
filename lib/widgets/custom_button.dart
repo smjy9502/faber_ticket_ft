@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:faber_ticket_ft/utils/constants.dart';
 
+// custom_button.dart 파일 수정
 class CustomButton extends StatelessWidget {
   final String image;
   final VoidCallback onPressed;
@@ -28,14 +29,6 @@ class CustomButton extends StatelessWidget {
             fit: BoxFit.contain,
             alignment: Alignment.center,
           ),
-          borderRadius: BorderRadius.circular(8),
-          boxShadow: [
-            BoxShadow(
-              color: Colors.black26,
-              offset: Offset(0, 2),
-              blurRadius: 6.0,
-            ),
-          ],
         ),
       ),
     );
