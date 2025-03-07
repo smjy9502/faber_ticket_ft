@@ -2,6 +2,7 @@ import 'package:faber_ticket_ft/utils/constants.dart';
 import 'package:flutter/material.dart';
 import 'package:faber_ticket_ft/services/youtube_service.dart';
 import 'package:faber_ticket_ft/widgets/custom_button.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class SongScreen extends StatefulWidget {
   @override
@@ -10,9 +11,9 @@ class SongScreen extends StatefulWidget {
 
 class _SongScreenState extends State<SongScreen> {
   final List<String> songTitles = [
-    'Best Part', 'Better Better', 'Healer', '한 페이지가 될 수 있게', '그녀가 웃었다', 'How to love', '쏟아진다', 'Say Wow', '예뻤어', 'I loved You',
-    '놓아 놓아 놓아 (reboot ver.)', 'Congratulations', '어떻게 말해', '아 왜 (I Wait)', 'Love me or Leave me', 'Shoot Me', '괴물', 'Zombie', '녹아내려요', 'HAPPY',
-    '바래', '도와줘요 Rock&Roll', '망겜', 'DANCE DANCE', 'Free하게', 'My day', 'First Time', 'Welcome to the Show'
+    '1. Best Part', '2. Better Better', '3. Healer', '4. 한 페이지가 될 수 있게', '5. 그녀가 웃었다', '6. How to love', '7. 쏟아진다', '8. Say Wow', '9. 예뻤어', '10. I loved You',
+    '11. 놓아 놓아 놓아 (reboot ver.)', '12. Congratulations', '13. 어떻게 말해', '14. 아 왜 (I Wait)', '15. Love me or Leave me', '16. Shoot Me', '17. 괴물', '18. Zombie', '19. 녹아내려요', '20. HAPPY',
+    '21. 바래', '22. 도와줘요 Rock&Roll', '23. 망겜', '24. DANCE DANCE', '25. Free하게', '26. My day', '27. First Time', '28. Welcome to the Show'
   ];
   int _currentIndex = 0;
 
@@ -43,20 +44,38 @@ class _SongScreenState extends State<SongScreen> {
                           Image.asset('assets/images/setlist_player.gif'),
                           Expanded(child: SizedBox()),
                           GestureDetector(
-                            onPanUpdate: (details) {
-                              if (details.delta.dx > 0) {
+                            onPanEnd: (details) {
+                              if (details.velocity.pixelsPerSecond.dx > 0) {
                                 setState(() {
-                                  _currentIndex = (_currentIndex - 1 + songTitles.length) % songTitles.length;
+                                  if (_currentIndex > 0) {
+                                    _currentIndex--;
+                                  } else {
+                                    _currentIndex = songTitles.length - 1;
+                                  }
                                 });
-                              } else if (details.delta.dx < 0) {
+                              } else if (details.velocity.pixelsPerSecond.dx < 0) {
                                 setState(() {
-                                  _currentIndex = (_currentIndex + 1) % songTitles.length;
+                                  if (_currentIndex < songTitles.length - 1) {
+                                    _currentIndex++;
+                                  } else {
+                                    _currentIndex = 0;
+                                  }
                                 });
                               }
                             },
-                            child: Text(
-                              songTitles[_currentIndex],
-                              style: TextStyle(fontSize: 24),
+                            child: GestureDetector(
+                              onTap: () async {
+                                final url = 'https://www.youtube.com/watch?v=i_xKWvhGV90';
+                                if (await canLaunchUrl(Uri.parse(url))) {
+                                  await launchUrl(Uri.parse(url));
+                                } else {
+                                  throw 'Could not launch $url';
+                                }
+                              },
+                              child: Text(
+                                songTitles[_currentIndex],
+                                style: TextStyle(fontSize: 24),
+                              ),
                             ),
                           ),
                           Expanded(child: SizedBox()),
