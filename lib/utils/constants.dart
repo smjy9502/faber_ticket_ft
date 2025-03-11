@@ -33,9 +33,9 @@ class Constants {
   static const String ticketFrontImage = 'assets/images/ticket_front.webp';
   static const String ticketBackImage = 'assets/images/ticket_back.webp';
   static const String setlistBackgroundImage = 'assets/images/setlist_background.webp';
+  static const String photoBackgroundImage = 'assets/images/photo_background.webp';
   static const String errorBackgroundImage = 'assets/images/error_background.jpg';
   static const String buttonSetlistImage = 'assets/images/button_setlist.jpg';
-  static const String photoBackgroundImage = 'assets/images/photo_background.webp';
 
   // Firebase Collection Names
   static const String customDataCollection = 'custom_data';

@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:faber_ticket_ft/services/firebase_service.dart';
 import 'package:faber_ticket_ft/screens/main_screen.dart';
-import 'package:faber_ticket_ft/screens/photo_screen.dart';
-import 'package:faber_ticket_ft/screens/song_screen.dart';
 import 'package:faber_ticket_ft/utils/constants.dart';
 
 class CustomScreen extends StatefulWidget {
@@ -12,35 +10,21 @@ class CustomScreen extends StatefulWidget {
 
 class _CustomScreenState extends State<CustomScreen> {
   final FirebaseService _firebaseService = FirebaseService();
-  final Map<String, TextEditingController> controllers = {
-    'Title': TextEditingController(),
-    'Release': TextEditingController(),
-    'Director': TextEditingController(),
-    'Cast': TextEditingController(),
-    'Review': TextEditingController(),
-    'Date': TextEditingController(),
-    'Time': TextEditingController(),
-    'Theater': TextEditingController(),
-  };
-
-  @override
-  void initState() {
-    super.initState();
-    loadData();
-  }
-
-  @override
-  void dispose() {
-    controllers.forEach((key, controller) => controller.dispose());
-    super.dispose();
-  }
+  int _rating = 0;
+  final TextEditingController reviewController = TextEditingController();
+  final TextEditingController sectionController = TextEditingController();
+  final TextEditingController rowController = TextEditingController();
+  final TextEditingController seatController = TextEditingController();
 
   Future<void> saveData() async {
     try {
-      Map<String, String> data = {};
-      controllers.forEach((key, value) {
-        data[key] = value.text;
-      });
+      Map<String, dynamic> data = {
+        'rating': _rating,
+        'review': reviewController.text,
+        'section': sectionController.text,
+        'row': rowController.text,
+        'seat': seatController.text,
+      };
       await _firebaseService.saveCustomData(data);
       ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('Data saved successfully!')));
     } catch (e) {
@@ -49,36 +33,20 @@ class _CustomScreenState extends State<CustomScreen> {
     }
   }
 
-  Future<void> loadData() async {
-    try {
-      final data = await _firebaseService.getCustomData();
-      setState(() {
-        controllers.forEach((key, controller) {
-          controller.text = data[key] ?? '';
-        });
-      });
-    } catch (e) {
-      print('Error loading data: $e');
-    }
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: PreferredSize(
-        preferredSize: Size.fromHeight(0),
-        child: AppBar(
-          backgroundColor: Colors.transparent,
-          elevation: 0,
-          leading: IconButton(
-            icon: Icon(Icons.arrow_back),
-            onPressed: () {
-              Navigator.pushReplacement(
-                context,
-                MaterialPageRoute(builder: (context) => MainScreen()),
-              );
-            },
-          ),
+      appBar: AppBar(
+        backgroundColor: Colors.transparent,
+        elevation: 0,
+        leading: IconButton(
+          icon: Icon(Icons.arrow_back, color: Colors.white),
+          onPressed: () {
+            Navigator.pushReplacement(
+              context,
+              MaterialPageRoute(builder: (context) => MainScreen()),
+            );
+          },
         ),
       ),
       body: Container(
@@ -91,58 +59,45 @@ class _CustomScreenState extends State<CustomScreen> {
         child: SafeArea(
           child: Column(
             children: [
+              Expanded(child: SizedBox()), // 여백 추가
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: List.generate(5, (index) {
+                  return IconButton(
+                    icon: Icon(
+                      Icons.star,
+                      color: index < _rating ? Colors.yellow : Colors.grey,
+                    ),
+                    onPressed: () {
+                      setState(() {
+                        _rating = index + 1;
+                      });
+                    },
+                  );
+                }),
+              ),
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 20.0),
+                child: TextField(
+                  controller: reviewController,
+                  decoration: InputDecoration(hintText: "Write your review"),
+                ),
+              ),
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 20.0),
+                child: Column(
+                  children: [
+                    TextField(controller: sectionController, decoration: InputDecoration(hintText: "Section")),
+                    SizedBox(height: 10),
+                    TextField(controller: rowController, decoration: InputDecoration(hintText: "Row")),
+                    SizedBox(height: 10),
+                    TextField(controller: seatController, decoration: InputDecoration(hintText: "Seat")),
+                  ],
+                ),
+              ),
               Align(
                 alignment: Alignment.topRight,
-                child: ElevatedButton(
-                  onPressed: saveData,
-                  child: Text('Save'),
-                ),
-              ),
-              Expanded(
-                child: SingleChildScrollView(
-                  child: Padding(
-                    padding: const EdgeInsets.all(16.0),
-                    child: Table(
-                      border: TableBorder.all(),
-                      children: controllers.entries.map((entry) {
-                        return TableRow(
-                          children: [
-                            TableCell(child: Center(child: Text(entry.key))),
-                            TableCell(
-                              child: Padding(
-                                padding: const EdgeInsets.all(8.0),
-                                child: TextField(controller: entry.value),
-                              ),
-                            ),
-                          ],
-                        );
-                      }).toList(),
-                    ),
-                  ),
-                ),
-              ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: [
-                  ElevatedButton(
-                    onPressed: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(builder: (context) => SongScreen()),
-                      );
-                    },
-                    child: Text('SetList'),
-                  ),
-                  ElevatedButton(
-                    onPressed: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(builder: (context) => PhotoScreen()),
-                      );
-                    },
-                    child: Text('Photo'),
-                  ),
-                ],
+                child: ElevatedButton(onPressed: saveData, child: Text('Save')),
               ),
             ],
           ),

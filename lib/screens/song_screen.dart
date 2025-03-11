@@ -4,6 +4,8 @@ import 'package:faber_ticket_ft/services/youtube_service.dart';
 import 'package:faber_ticket_ft/widgets/custom_button.dart';
 import 'package:url_launcher/url_launcher.dart';
 
+import 'custom_screen.dart';
+
 class SongScreen extends StatefulWidget {
   @override
   _SongScreenState createState() => _SongScreenState();
@@ -20,6 +22,19 @@ class _SongScreenState extends State<SongScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        backgroundColor: Colors.transparent,
+        elevation: 0,
+        leading: IconButton(
+          icon: Icon(Icons.arrow_back, color: Colors.white),
+          onPressed: () {
+            Navigator.pushReplacement(
+              context,
+              MaterialPageRoute(builder: (context) => CustomScreen()),
+            );
+          },
+        ),
+      ),
       body: LayoutBuilder(
         builder: (context, constraints) {
           return SingleChildScrollView(
