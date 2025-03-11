@@ -55,4 +55,4 @@ flutter:
   fonts:
     - family: CustomFont
       fonts:
-        - asset: assets/fonts/CustomFont.ttf
+        - asset: assets/fonts/NotoSansKR-Regular.ttf
