@@ -51,6 +51,34 @@ flutter:
     - assets/images/error_background.jpg
     - assets/images/button_setlist.jpg
     - assets/images/setlist_player.gif
+    - assets/images/cover_1.webp
+    - assets/images/cover_2.webp
+    - assets/images/cover_3.webp
+    - assets/images/cover_4.webp
+    - assets/images/cover_5.webp
+    - assets/images/cover_6.webp
+    - assets/images/cover_7.webp
+    - assets/images/cover_8.webp
+    - assets/images/cover_9.webp
+    - assets/images/cover_10.webp
+    - assets/images/cover_11.webp
+    - assets/images/cover_12.webp
+    - assets/images/cover_13.webp
+    - assets/images/cover_14.webp
+    - assets/images/cover_15.webp
+    - assets/images/cover_16.webp
+    - assets/images/cover_17.webp
+    - assets/images/cover_18.webp
+    - assets/images/cover_19.webp
+    - assets/images/cover_20.webp
+    - assets/images/cover_21.webp
+    - assets/images/cover_22.webp
+    - assets/images/cover_23.webp
+    - assets/images/cover_24.webp
+    - assets/images/cover_25.webp
+    - assets/images/cover_26.webp
+    - assets/images/cover_27.webp
+    - assets/images/cover_28.webp
 
   fonts:
     - family: CustomFont
