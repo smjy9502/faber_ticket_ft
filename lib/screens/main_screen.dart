@@ -84,8 +84,8 @@ class _MainScreenState extends State<MainScreen> {
                 children: [
                   ElevatedButton(
                     style: ElevatedButton.styleFrom(
-                      minimumSize: Size(150, 50),
-                      backgroundColor: Colors.blue,
+                      minimumSize: Size(110, 40),
+                      backgroundColor: Colors.grey,
                       foregroundColor: Colors.white,
                     ),
                     onPressed: () {

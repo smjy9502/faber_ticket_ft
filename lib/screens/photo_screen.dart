@@ -70,7 +70,7 @@ class _PhotoScreenState extends State<PhotoScreen> {
             ),
           ),
           Positioned(
-            top: 20,
+            top: 15,
             left: 20,
             child: IconButton(
               icon: Icon(Icons.arrow_back, color: Colors.white),
@@ -85,7 +85,7 @@ class _PhotoScreenState extends State<PhotoScreen> {
           SafeArea(
             child: Column(
               children: [
-                Expanded(child: SizedBox()),
+                Expanded(child: SizedBox(height: 50,)),
                 Expanded(
                   child: GridView.builder(
                     gridDelegate:

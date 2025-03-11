@@ -52,7 +52,7 @@ class _CustomScreenState extends State<CustomScreen> {
             children: [
               // Back 버튼 (화면 좌측 상단)
               Positioned(
-                top: 20,
+                top: 5,
                 left: 20,
                 child: IconButton(
                   icon: Icon(Icons.arrow_back, color: Colors.white),
@@ -67,7 +67,7 @@ class _CustomScreenState extends State<CustomScreen> {
 
               // Save 버튼 (화면 우측 상단)
               Positioned(
-                top: 20,
+                top: 5,
                 right: 20,
                 child: ElevatedButton(
                   onPressed: saveData,
@@ -80,7 +80,7 @@ class _CustomScreenState extends State<CustomScreen> {
                 top: MediaQuery
                     .of(context)
                     .size
-                    .height * 0.45, // 이미지 상의 "Rate" 위치
+                    .height * 0.56, // 이미지 상의 "Rate" 위치
                 left: MediaQuery
                     .of(context)
                     .size
@@ -107,7 +107,7 @@ class _CustomScreenState extends State<CustomScreen> {
                 top: MediaQuery
                     .of(context)
                     .size
-                    .height * 0.55, // 이미지 상의 "Review" 위치
+                    .height * 0.61, // 이미지 상의 "Review" 위치
                 left: MediaQuery
                     .of(context)
                     .size
@@ -126,7 +126,7 @@ class _CustomScreenState extends State<CustomScreen> {
                 top: MediaQuery
                     .of(context)
                     .size
-                    .height * 0.7, // 이미지 상의 "Section", "Row", "Seat" 위치
+                    .height * 0.8, // 이미지 상의 "Section", "Row", "Seat" 위치
                 left: MediaQuery
                     .of(context)
                     .size
