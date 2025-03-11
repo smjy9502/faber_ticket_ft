@@ -1,7 +1,6 @@
 import 'package:faber_ticket_ft/utils/constants.dart';
 import 'package:flutter/material.dart';
 import 'package:faber_ticket_ft/screens/custom_screen.dart';
-import 'package:faber_ticket_ft/screens/song_screen.dart';
 import 'package:faber_ticket_ft/widgets/custom_button.dart';
 import 'package:faber_ticket_ft/services/firebase_service.dart';
 import 'error_screen.dart';
@@ -33,7 +32,6 @@ class _MainScreenState extends State<MainScreen> {
           bool isValid = await _firebaseService.verifyAccess(uid);
           if (isValid) {
             print('Access granted, staying on MainScreen');
-            // 여기서 상태를 업데이트하여 MainScreen을 표시
             setState(() {});
           } else {
             print('Access denied, navigating to ErrorScreen');
@@ -59,62 +57,50 @@ class _MainScreenState extends State<MainScreen> {
     }
   }
 
-
   Future<void> setNFCFlag() async {
     final prefs = await SharedPreferences.getInstance();
     await prefs.setBool('isFromNFC', true);
     print("NFC Flag set: ${prefs.getBool('isFromNFC')}");
   }
 
-
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: GestureDetector(
-        onHorizontalDragEnd: (details) {
-          if (details.primaryVelocity! < 0) {
-            Navigator.push(
-              context,
-              MaterialPageRoute(builder: (context) => CustomScreen()),
-            );
-          }
-        },
-        child: LayoutBuilder(
-          builder: (context, constraints) {
-            return Container(
-              width: constraints.maxWidth,
-              height: constraints.maxHeight,
-              decoration: BoxDecoration(
-                image: DecorationImage(
-                  image: AssetImage(Constants.ticketFrontImage),
-                  fit: BoxFit.cover,
-                  alignment: Alignment.center,
-                ),
+      body: LayoutBuilder(
+        builder: (context, constraints) {
+          return Container(
+            width: constraints.maxWidth,
+            height: constraints.maxHeight,
+            decoration: BoxDecoration(
+              image: DecorationImage(
+                image: AssetImage(Constants.ticketFrontImage),
+                fit: BoxFit.cover,
+                alignment: Alignment.center,
               ),
-              child: SafeArea(
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.end,
-                  children: [
-                    Expanded(child: SizedBox()),
-                    CustomButton(
-                      image: Constants.buttonSetlistImage,
-                      onPressed: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(builder: (context) => SongScreen()),
-                        );
-                      },
-                      width: MediaQuery.of(context).size.width * 0.8,
-                      height: 50,
+            ),
+            child: SafeArea(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  ElevatedButton(
+                    style: ElevatedButton.styleFrom(
+                      minimumSize: Size(150, 50),
+                      backgroundColor: Colors.blue,
+                      foregroundColor: Colors.white,
                     ),
-                    SizedBox(height: Constants.paddingLarge),
-                  ],
-                ),
+                    onPressed: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (context) => CustomScreen()),
+                      );
+                    },
+                    child: Text('Enter'),
+                  ),
+                ],
               ),
-            );
-          },
-        ),
+            ),
+          );
+        },
       ),
     );
   }

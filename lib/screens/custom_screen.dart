@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:faber_ticket_ft/services/firebase_service.dart';
-import 'package:faber_ticket_ft/utils/constants.dart';
+import 'package:faber_ticket_ft/screens/main_screen.dart';
 import 'package:faber_ticket_ft/screens/photo_screen.dart';
+import 'package:faber_ticket_ft/screens/song_screen.dart';
+import 'package:faber_ticket_ft/utils/constants.dart';
 
 class CustomScreen extends StatefulWidget {
   @override
@@ -63,7 +65,22 @@ class _CustomScreenState extends State<CustomScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text('Custom Screen')),
+      appBar: PreferredSize(
+        preferredSize: Size.fromHeight(0),
+        child: AppBar(
+          backgroundColor: Colors.transparent,
+          elevation: 0,
+          leading: IconButton(
+            icon: Icon(Icons.arrow_back),
+            onPressed: () {
+              Navigator.pushReplacement(
+                context,
+                MaterialPageRoute(builder: (context) => MainScreen()),
+              );
+            },
+          ),
+        ),
+      ),
       body: Container(
         decoration: BoxDecoration(
           image: DecorationImage(
@@ -71,42 +88,63 @@ class _CustomScreenState extends State<CustomScreen> {
             fit: BoxFit.cover,
           ),
         ),
-        child: SingleChildScrollView(
-          child: Padding(
-            padding: const EdgeInsets.all(16.0),
-            child: Column(
-              children: [
-                Table(
-                  border: TableBorder.all(),
-                  children: controllers.entries.map((entry) {
-                    return TableRow(
-                      children: [
-                        TableCell(child: Center(child: Text(entry.key))),
-                        TableCell(
-                          child: Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: TextField(controller: entry.value),
-                          ),
-                        ),
-                      ],
-                    );
-                  }).toList(),
+        child: SafeArea(
+          child: Column(
+            children: [
+              Align(
+                alignment: Alignment.topRight,
+                child: ElevatedButton(
+                  onPressed: saveData,
+                  child: Text('Save'),
                 ),
-                SizedBox(height: 20),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  children: [
-                    ElevatedButton(onPressed: saveData, child: Text('Save')),
-                    ElevatedButton(
-                      onPressed: () {
-                        Navigator.push(context, MaterialPageRoute(builder: (context) => PhotoScreen()));
-                      },
-                      child: Text('Photo'),
+              ),
+              Expanded(
+                child: SingleChildScrollView(
+                  child: Padding(
+                    padding: const EdgeInsets.all(16.0),
+                    child: Table(
+                      border: TableBorder.all(),
+                      children: controllers.entries.map((entry) {
+                        return TableRow(
+                          children: [
+                            TableCell(child: Center(child: Text(entry.key))),
+                            TableCell(
+                              child: Padding(
+                                padding: const EdgeInsets.all(8.0),
+                                child: TextField(controller: entry.value),
+                              ),
+                            ),
+                          ],
+                        );
+                      }).toList(),
                     ),
-                  ],
+                  ),
                 ),
-              ],
-            ),
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: [
+                  ElevatedButton(
+                    onPressed: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (context) => SongScreen()),
+                      );
+                    },
+                    child: Text('SetList'),
+                  ),
+                  ElevatedButton(
+                    onPressed: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (context) => PhotoScreen()),
+                      );
+                    },
+                    child: Text('Photo'),
+                  ),
+                ],
+              ),
+            ],
           ),
         ),
       ),
