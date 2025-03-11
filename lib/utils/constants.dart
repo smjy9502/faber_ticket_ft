@@ -36,6 +36,36 @@ class Constants {
   static const String photoBackgroundImage = 'assets/images/photo_background.webp';
   static const String errorBackgroundImage = 'assets/images/error_background.jpg';
   static const String buttonSetlistImage = 'assets/images/button_setlist.jpg';
+  static const List<String> coverImages = [
+    'cover_1.webp',
+    'cover_2.webp',
+    'cover_3.webp',
+    'cover_4.webp',
+    'cover_5.webp',
+    'cover_6.webp',
+    'cover_7.webp',
+    'cover_8.webp',
+    'cover_9.webp',
+    'cover_10.webp',
+    'cover_11.webp',
+    'cover_12.webp',
+    'cover_13.webp',
+    'cover_14.webp',
+    'cover_15.webp',
+    'cover_16.webp',
+    'cover_17.webp',
+    'cover_18.webp',
+    'cover_19.webp',
+    'cover_20.webp',
+    'cover_21.webp',
+    'cover_22.webp',
+    'cover_23.webp',
+    'cover_24.webp',
+    'cover_25.webp',
+    'cover_26.webp',
+    'cover_27.webp',
+    'cover_28.webp',
+  ];
 
   // Firebase Collection Names
   static const String customDataCollection = 'custom_data';
