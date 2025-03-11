@@ -72,8 +72,7 @@ class _SongScreenState extends State<SongScreen> {
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                // SizedBox height 100으로 추가.
-                Expanded(flex: 2, child: SizedBox(height: 100,)), // 위쪽 여백 늘리기
+                Expanded(flex: 2, child: SizedBox()), // 위쪽 여백 늘리기
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: [
@@ -104,7 +103,7 @@ class _SongScreenState extends State<SongScreen> {
                       ),
                     ),
                     Container(
-                      width: 200,
+                      width: 100,
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
@@ -119,8 +118,8 @@ class _SongScreenState extends State<SongScreen> {
                             },
                             child: Image.asset(
                               'assets/images/${songInfos[_currentIndex].coverImage}',
-                              width: 150,
-                              height: 150,
+                              width: 80,
+                              height: 80,
                             ),
                           ),
                           Text(
