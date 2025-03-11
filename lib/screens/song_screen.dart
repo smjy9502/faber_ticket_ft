@@ -72,7 +72,7 @@ class _SongScreenState extends State<SongScreen> {
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                Expanded(child: SizedBox()),
+                Expanded(flex: 2, child: SizedBox()), // 위쪽 여백 늘리기
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: [
@@ -157,7 +157,7 @@ class _SongScreenState extends State<SongScreen> {
                     ),
                   ],
                 ),
-                Expanded(child: SizedBox()),
+                Expanded(flex: 3, child: SizedBox()), // 아래쪽 여백 늘리기
               ],
             ),
           ),
