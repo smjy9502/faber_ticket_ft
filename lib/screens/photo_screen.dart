@@ -85,7 +85,8 @@ class _PhotoScreenState extends State<PhotoScreen> {
           SafeArea(
             child: Column(
               children: [
-                Expanded(child: SizedBox(height: 50,)),
+                // 50 -> 30
+                Expanded(child: SizedBox(height: 30,)),
                 Expanded(
                   child: GridView.builder(
                     gridDelegate:

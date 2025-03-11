@@ -136,9 +136,9 @@ class _CustomScreenState extends State<CustomScreen> {
 
               // Section, Row, Seat 입력
               Positioned(
-                top: MediaQuery.of(context).size.height * 0.8, // 이미지 상의 "Section", "Row", "Seat" 위치
-                left: MediaQuery.of(context).size.width * 0.2,
-                right: MediaQuery.of(context).size.width * 0.2,
+                top: MediaQuery.of(context).size.height * 0.805, // 이미지 상의 "Section", "Row", "Seat" 위치
+                left: MediaQuery.of(context).size.width * 0.18,
+                right: MediaQuery.of(context).size.width * 0.18,
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
@@ -154,7 +154,7 @@ class _CustomScreenState extends State<CustomScreen> {
                       ),
                     ),
                     SizedBox(
-                      width: MediaQuery.of(context).size.width * 0.23,
+                      width: MediaQuery.of(context).size.width * 0.3,
                       child: TextField(
                         controller: rowController,
                         style: TextStyle(color: Colors.white),
