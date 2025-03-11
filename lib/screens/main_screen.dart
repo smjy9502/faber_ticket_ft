@@ -28,21 +28,13 @@ class _MainScreenState extends State<MainScreen> {
       NfcManager.instance.startSession(onDiscovered: (NfcTag tag) async {
         print("NFC Tag detected!");
         await setNFCFlag();
-        final uid = await _firebaseService.getAuthenticatedUID();
-        if (uid != null) {
-          bool isValid = await _firebaseService.verifyAccess(uid);
-          if (isValid) {
-            print('Access granted, staying on MainScreen');
-            setState(() {});
-          } else {
-            print('Access denied, navigating to ErrorScreen');
-            Navigator.pushReplacement(
-              context,
-              MaterialPageRoute(builder: (context) => ErrorScreen()),
-            );
-          }
+        final prefs = await SharedPreferences.getInstance();
+        bool isFromNFC = prefs.getBool('isFromNFC') ?? false;
+        if (isFromNFC) {
+          print("Access granted, staying on MainScreen");
+          setState(() {});
         } else {
-          print('User not authenticated');
+          print("Access denied, navigating to ErrorScreen");
           Navigator.pushReplacement(
             context,
             MaterialPageRoute(builder: (context) => ErrorScreen()),
