@@ -44,9 +44,11 @@ Future<bool> checkInitialAccess() async {
   if (foundation.kIsWeb) {
     final userAgent = html.window.navigator.userAgent;
     print('User Agent: $userAgent'); // User Agent 출력
-    final isMobile = userAgent.contains('Mobile') || userAgent.contains('iPhone');
+    final isMobile = userAgent.contains('Mobile') || userAgent.contains('Android') || userAgent.contains('iPhone');
     if (isMobile) {
       return true; // 모바일 기기에서만 접속 허용
+    } else if (userAgent.contains('Macintosh')) {
+      return false; // Mac OS X에서 실행되는 Safari 브라우저는 접속 거부
     } else {
       return false;
     }
@@ -54,4 +56,3 @@ Future<bool> checkInitialAccess() async {
     return true; // 모바일 앱에서는 NFC 기능을 사용하여 접속 제한 (현재는 NFC 관련 코드가 필요하지 않음)
   }
 }
-
