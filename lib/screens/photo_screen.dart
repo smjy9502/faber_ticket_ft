@@ -104,7 +104,7 @@ class _PhotoScreenState extends State<PhotoScreen> {
                         decoration:
                         BoxDecoration(border: Border.all(color: Colors.black, width: 1)),
                         child:
-                        imageUrls[index].isNotEmpty ? Image.network(imageUrls[index], fit BoxFit.cover) : Icon(Icons.add_photo_alternate),
+                        imageUrls[index].isNotEmpty ? Image.network(imageUrls[index], fit: BoxFit.cover) : Icon(Icons.add_photo_alternate),
                       ),
                     ),
                   ),
