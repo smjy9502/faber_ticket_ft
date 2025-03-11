@@ -96,7 +96,7 @@ class _CustomScreenState extends State<CustomScreen> {
 
               // Review 입력
               Positioned(
-                top: MediaQuery.of(context).size.height * 0.7, // 이미지 상의 "Review" 위치
+                top: MediaQuery.of(context).size.height * 0.69, // 이미지 상의 "Review" 위치
                 left: MediaQuery.of(context).size.width * 0.5 - 150,
                 child: SizedBox(
                   width: 300,
@@ -113,14 +113,14 @@ class _CustomScreenState extends State<CustomScreen> {
 
               // Section, Row, Seat 입력
               Positioned(
-                top: MediaQuery.of(context).size.height * 0.8, // 이미지 상의 "Section", "Row", "Seat" 위치
-                left: MediaQuery.of(context).size.width * 0.2,
-                right: MediaQuery.of(context).size.width * 0.2,
+                top: MediaQuery.of(context).size.height * 0.81, // 이미지 상의 "Section", "Row", "Seat" 위치
+                left: MediaQuery.of(context).size.width * 0.1,
+                right: MediaQuery.of(context).size.width * 0.1,
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     SizedBox(
-                      width: MediaQuery.of(context).size.width * 0.2,
+                      width: MediaQuery.of(context).size.width * 0.35,
                       child: TextField(
                         controller: sectionController,
                         style: TextStyle(color: Colors.white),
@@ -131,7 +131,7 @@ class _CustomScreenState extends State<CustomScreen> {
                       ),
                     ),
                     SizedBox(
-                      width: MediaQuery.of(context).size.width * 0.4,
+                      width: MediaQuery.of(context).size.width * 0.35,
                       child: TextField(
                         controller: rowController,
                         style: TextStyle(color: Colors.white),
@@ -142,7 +142,7 @@ class _CustomScreenState extends State<CustomScreen> {
                       ),
                     ),
                     SizedBox(
-                      width: MediaQuery.of(context).size.width * 0.4,
+                      width: MediaQuery.of(context).size.width * 0.35,
                       child: TextField(
                         controller: seatController,
                         style: TextStyle(color: Colors.white),
@@ -158,7 +158,7 @@ class _CustomScreenState extends State<CustomScreen> {
 
               // SetList 버튼과 Photo 버튼 (화면 하단)
               Positioned(
-                bottom: MediaQuery.of(context).size.height * 0.05, // 약간 더 아래로 이동
+                bottom: MediaQuery.of(context).size.height * 0.06, // 약간 더 아래로 이동
                 left: MediaQuery.of(context).size.width * 0.1,
                 right: MediaQuery.of(context).size.width * 0.1,
                 child: Row(
