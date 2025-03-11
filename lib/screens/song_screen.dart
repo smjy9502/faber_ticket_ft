@@ -161,7 +161,8 @@ class _SongScreenState extends State<SongScreen> {
                     ),
                   ],
                 ),
-                Expanded(flex: 3, child: SizedBox()), // 아래쪽 여백 늘리기
+                // flex 삭제
+                Expanded(child: SizedBox()), // 아래쪽 여백 늘리기
               ],
             ),
           ),
