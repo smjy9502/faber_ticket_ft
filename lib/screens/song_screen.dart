@@ -84,11 +84,11 @@ class _SongScreenState extends State<SongScreen> {
                         child: Column(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
-                            Image.asset(
-                              'assets/images/${songInfos[(_currentIndex - 1 + songInfos.length) % songInfos.length].coverImage}',
-                              width: 100,
-                              height: 100,
-                            ),
+                            // Image.asset(
+                            //   'assets/images/${songInfos[(_currentIndex - 1 + songInfos.length) % songInfos.length].coverImage}',
+                            //   width: 100,
+                            //   height: 100,
+                            // ),
                             Text(
                               songInfos[(_currentIndex - 1 + songInfos.length) % songInfos.length].albumTitle,
                               style: TextStyle(fontSize: 12, color: Colors.white),
@@ -140,11 +140,11 @@ class _SongScreenState extends State<SongScreen> {
                         child: Column(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
-                            Image.asset(
-                              'assets/images/${songInfos[(_currentIndex + 1) % songInfos.length].coverImage}',
-                              width: 100,
-                              height: 100,
-                            ),
+                            // Image.asset(
+                            //   'assets/images/${songInfos[(_currentIndex + 1) % songInfos.length].coverImage}',
+                            //   width: 100,
+                            //   height: 100,
+                            // ),
                             Text(
                               songInfos[(_currentIndex + 1) % songInfos.length].albumTitle,
                               style: TextStyle(fontSize: 12, color: Colors.white),
