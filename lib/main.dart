@@ -22,7 +22,7 @@ class MyApp extends StatelessWidget {
         primarySwatch: Colors.blue,
         fontFamily: 'CustomFont',
       ),
-      home: FutureBuilder<bool>(
+      home: FutureBuilder(
         future: checkInitialNFCAccess(),
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
@@ -37,18 +37,18 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
     );
   }
+}
 
-  Future<bool> checkInitialNFCAccess() async {
-    final prefs = await SharedPreferences.getInstance();
-    bool isFromNFC = prefs.getBool('isFromNFC') ?? false;
-    print("Initial NFC access check: $isFromNFC");
-    if (isFromNFC) {
-      await prefs.setBool('isFromNFC', false);
-      print("NFC flag reset");
-    }
-    //NFC칩 없이 임시 테스트용.
+Future<bool> checkInitialNFCAccess() async {
+  final prefs = await SharedPreferences.getInstance();
+  bool isFromNFC = prefs.getBool('isFromNFC') ?? false;
+  print("Initial NFC access check: $isFromNFC");
+  if (isFromNFC) {
+    await prefs.setBool('isFromNFC', false);
+    print("NFC flag reset");
     return true;
-    // return isFromNFC;
+  } else {
+    // NFC칩 없이 접속 시도 시 에러 화면으로 이동
+    return false;
   }
-
 }
