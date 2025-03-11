@@ -8,7 +8,7 @@ import 'package:faber_ticket_ft/services/firebase_service.dart';
 import 'error_screen.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:nfc_manager/nfc_manager.dart';
-import 'dart:html' as html;
+import 'package:universal_html/html.dart' as html;
 
 class MainScreen extends StatefulWidget {
   @override
