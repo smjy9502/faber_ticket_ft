@@ -47,8 +47,8 @@ class MyApp extends StatelessWidget {
       print("NFC flag reset");
     }
     //NFC칩 없이 임시 테스트용.
-    return true;
-    // return isFromNFC;
+    // return true;
+    return isFromNFC;
   }
 
 }

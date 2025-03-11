@@ -72,21 +72,24 @@ class _SongScreenState extends State<SongScreen> {
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                Expanded(flex: 2, child: SizedBox()), // 위쪽 여백 늘리기
+                // SizedBox height 100으로 추가.
+                Expanded(flex: 2, child: SizedBox(height: 100,)), // 위쪽 여백 늘리기
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: [
                     Opacity(
                       opacity: 0.5,
                       child: Container(
-                        width: 150,
+                        //150 > 50
+                        width: 50,
                         child: Column(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
                             Image.asset(
                               'assets/images/${songInfos[(_currentIndex - 1 + songInfos.length) % songInfos.length].coverImage}',
-                              width: 100,
-                              height: 100,
+                              // 100 > 30
+                              width: 30,
+                              height: 30,
                             ),
                             Text(
                               songInfos[(_currentIndex - 1 + songInfos.length) % songInfos.length].albumTitle,
@@ -134,14 +137,16 @@ class _SongScreenState extends State<SongScreen> {
                     Opacity(
                       opacity: 0.5,
                       child: Container(
-                        width: 150,
+                        // 150 > 50
+                        width: 50,
                         child: Column(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
                             Image.asset(
                               'assets/images/${songInfos[(_currentIndex + 1) % songInfos.length].coverImage}',
-                              width: 100,
-                              height: 100,
+                              //100 > 30
+                              width: 30,
+                              height: 30,
                             ),
                             Text(
                               songInfos[(_currentIndex + 1) % songInfos.length].albumTitle,
