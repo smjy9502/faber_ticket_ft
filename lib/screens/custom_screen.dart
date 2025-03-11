@@ -143,7 +143,7 @@ class _CustomScreenState extends State<CustomScreen> {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     SizedBox(
-                      width: MediaQuery.of(context).size.width * 0.23,
+                      width: MediaQuery.of(context).size.width * 0.3,
                       child: TextField(
                         controller: sectionController,
                         style: TextStyle(color: Colors.white),
@@ -165,7 +165,7 @@ class _CustomScreenState extends State<CustomScreen> {
                       ),
                     ),
                     SizedBox(
-                      width: MediaQuery.of(context).size.width * 0.23,
+                      width: MediaQuery.of(context).size.width * 0.3,
                       child: TextField(
                         controller: seatController,
                         style: TextStyle(color: Colors.white),

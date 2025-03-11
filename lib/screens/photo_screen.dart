@@ -88,6 +88,7 @@ class _PhotoScreenState extends State<PhotoScreen> {
                 // 50 -> 30
                 Expanded(child: SizedBox(height: 30,)),
                 Expanded(
+                  flex: 3,
                   child: GridView.builder(
                     gridDelegate:
                     SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 3, crossAxisSpacing: 4, mainAxisSpacing: 4),
