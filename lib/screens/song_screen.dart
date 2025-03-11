@@ -86,9 +86,8 @@ class _SongScreenState extends State<SongScreen> {
                           children: [
                             Image.asset(
                               'assets/images/${songInfos[(_currentIndex - 1 + songInfos.length) % songInfos.length].coverImage}',
-                              // 100 > 30
-                              width: 30,
-                              height: 30,
+                              width: 100,
+                              height: 100,
                             ),
                             Text(
                               songInfos[(_currentIndex - 1 + songInfos.length) % songInfos.length].albumTitle,
@@ -118,8 +117,8 @@ class _SongScreenState extends State<SongScreen> {
                             },
                             child: Image.asset(
                               'assets/images/${songInfos[_currentIndex].coverImage}',
-                              width: 80,
-                              height: 80,
+                              width: 100,
+                              height: 100,
                             ),
                           ),
                           Text(
@@ -143,9 +142,8 @@ class _SongScreenState extends State<SongScreen> {
                           children: [
                             Image.asset(
                               'assets/images/${songInfos[(_currentIndex + 1) % songInfos.length].coverImage}',
-                              //100 > 30
-                              width: 30,
-                              height: 30,
+                              width: 100,
+                              height: 100,
                             ),
                             Text(
                               songInfos[(_currentIndex + 1) % songInfos.length].albumTitle,
