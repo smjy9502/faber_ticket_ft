@@ -78,22 +78,32 @@ class _SongScreenState extends State<SongScreen> {
                   children: [
                     Opacity(
                       opacity: 0.5,
+                      child: Transform.rotate(
+                        angle: -0.1, // 왼쪽으로 살짝 기울임
                       child: Container(
-                        width: 50,
+                        width: 100,
                         child: Column(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
+                            Image.asset(
+                              'assets/images/${Constants.coverImages[(_currentIndex - 1 + songInfos.length) % songInfos.length]}',
+                              width: 50,
+                              height: 50,
+                            ),
                             Text(
                               songInfos[(_currentIndex - 1 + songInfos.length) % songInfos.length].albumTitle,
+                              textAlign: TextAlign.center,
                               style: TextStyle(fontSize: 12, color: Colors.white),
                             ),
                             Text(
                               songInfos[(_currentIndex - 1 + songInfos.length) % songInfos.length].songTitle,
+                              textAlign: TextAlign.center,
                               style: TextStyle(fontSize: 12, color: Colors.white),
                             ),
                           ],
                         ),
                       ),
+                     ),
                     ),
                     Container(
                       width: 200,
@@ -111,16 +121,18 @@ class _SongScreenState extends State<SongScreen> {
                             },
                             child: Image.asset(
                               'assets/images/${Constants.coverImages[_currentIndex]}',
-                              width: 100,
-                              height: 100,
+                              width: 250,
+                              height: 250,
                             ),
                           ),
                           Text(
                             songInfos[_currentIndex].albumTitle,
+                            textAlign: TextAlign.center,
                             style: TextStyle(fontSize: 16, color: Colors.white),
                           ),
                           Text(
                             songInfos[_currentIndex].songTitle,
+                            textAlign: TextAlign.center,
                             style: TextStyle(fontSize: 16, color: Colors.white),
                           ),
                         ],
@@ -128,26 +140,36 @@ class _SongScreenState extends State<SongScreen> {
                     ),
                     Opacity(
                       opacity: 0.5,
+                      child: Transform.rotate(
+                        angle: 0.1, // 오른쪽으로 살짝 기울임
                       child: Container(
-                        width: 50,
+                        width: 100,
                         child: Column(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
+                            Image.asset(
+                              'assets/images/${Constants.coverImages[(_currentIndex + 1) % songInfos.length]}',
+                              width: 50,
+                              height: 50,
+                            ),
                             Text(
                               songInfos[(_currentIndex + 1) % songInfos.length].albumTitle,
+                              textAlign: TextAlign.center,
                               style: TextStyle(fontSize: 12, color: Colors.white),
                             ),
                             Text(
                               songInfos[(_currentIndex + 1) % songInfos.length].songTitle,
+                              textAlign: TextAlign.center,
                               style: TextStyle(fontSize: 12, color: Colors.white),
                             ),
                           ],
                         ),
                       ),
+                     ),
                     ),
                   ],
                 ),
-                Expanded(flex: 3, child: SizedBox()), // 아래쪽 여백 늘리기
+                Expanded(child: SizedBox()), // 아래쪽 여백 늘리기
               ],
             ),
           ),
