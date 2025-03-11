@@ -1,3 +1,4 @@
+import 'package:flutter/material.dart';
 import 'package:faber_ticket_ft/utils/constants.dart';
 import 'package:flutter/material.dart';
 import 'package:faber_ticket_ft/screens/custom_screen.dart';
@@ -21,7 +22,7 @@ class _MainScreenState extends State<MainScreen> {
     checkNFCAccess();
   }
 
-  Future<void> checkNFCAccess() async {
+  Future checkNFCAccess() async {
     bool isAvailable = await NfcManager.instance.isAvailable();
     if (isAvailable) {
       NfcManager.instance.startSession(onDiscovered: (NfcTag tag) async {
@@ -57,7 +58,7 @@ class _MainScreenState extends State<MainScreen> {
     }
   }
 
-  Future<void> setNFCFlag() async {
+  Future setNFCFlag() async {
     final prefs = await SharedPreferences.getInstance();
     await prefs.setBool('isFromNFC', true);
     print("NFC Flag set: ${prefs.getBool('isFromNFC')}");
