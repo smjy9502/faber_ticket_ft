@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:faber_ticket_ft/utils/constants.dart';
 import 'package:flutter/material.dart';
@@ -7,6 +8,7 @@ import 'package:faber_ticket_ft/services/firebase_service.dart';
 import 'error_screen.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:nfc_manager/nfc_manager.dart';
+import 'dart:html' as html;
 
 class MainScreen extends StatefulWidget {
   @override
@@ -22,23 +24,48 @@ class _MainScreenState extends State<MainScreen> {
     checkNFCAccess();
   }
 
+  Future setNFCFlag() async {
+    if (kIsWeb) {
+      html.window.localStorage['isFromNFC'] = 'true';
+      print("NFC Flag set in Local Storage");
+    } else {
+      final prefs = await SharedPreferences.getInstance();
+      await prefs.setBool('isFromNFC', true);
+      print("NFC Flag set in SharedPreferences");
+    }
+  }
+
   Future checkNFCAccess() async {
     bool isAvailable = await NfcManager.instance.isAvailable();
     if (isAvailable) {
       NfcManager.instance.startSession(onDiscovered: (NfcTag tag) async {
         print("NFC Tag detected!");
         await setNFCFlag();
-        final prefs = await SharedPreferences.getInstance();
-        bool isFromNFC = prefs.getBool('isFromNFC') ?? false;
-        if (isFromNFC) {
-          print("Access granted, staying on MainScreen");
-          setState(() {});
+        if (kIsWeb) {
+          bool isFromNFC = html.window.localStorage['isFromNFC'] == 'true';
+          if (isFromNFC) {
+            print("Access granted, staying on MainScreen");
+            setState(() {});
+          } else {
+            print("Access denied, navigating to ErrorScreen");
+            Navigator.pushReplacement(
+              context,
+              MaterialPageRoute(builder: (context) => ErrorScreen()),
+            );
+          }
         } else {
-          print("Access denied, navigating to ErrorScreen");
-          Navigator.pushReplacement(
-            context,
-            MaterialPageRoute(builder: (context) => ErrorScreen()),
-          );
+          final prefs = await SharedPreferences.getInstance();
+          bool isFromNFC = prefs.getBool('isFromNFC') ?? false;
+          if (isFromNFC) {
+            print("Access granted, staying on MainScreen");
+            setState(() {});
+          } else {
+            print("Access denied, navigating to ErrorScreen");
+            Navigator.pushReplacement(
+              context,
+              MaterialPageRoute(builder: (context) => ErrorScreen()),
+            );
+          }
         }
       });
     } else {
@@ -48,12 +75,6 @@ class _MainScreenState extends State<MainScreen> {
         MaterialPageRoute(builder: (context) => ErrorScreen()),
       );
     }
-  }
-
-  Future setNFCFlag() async {
-    final prefs = await SharedPreferences.getInstance();
-    await prefs.setBool('isFromNFC', true);
-    print("NFC Flag set: ${prefs.getBool('isFromNFC')}");
   }
 
   @override
