@@ -44,9 +44,10 @@ dev_dependencies:
 flutter:
   uses-material-design: true
   assets:
-    - assets/images/ticket_front.png
-    - assets/images/ticket_back.jpeg
-    - assets/images/setlist_background.jpg
+    - assets/images/ticket_front.webp
+    - assets/images/ticket_back.webp
+    - assets/images/setlist_background.webp
+    - assets/images/photo_background.webp
     - assets/images/error_background.jpg
     - assets/images/button_setlist.jpg
     - assets/images/setlist_player.gif

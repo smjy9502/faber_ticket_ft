@@ -4,6 +4,9 @@ import 'package:flutter/material.dart';
 import 'dart:html' as html;
 import 'package:faber_ticket_ft/services/firebase_service.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:faber_ticket_ft/utils/constants.dart';
+
+import 'custom_screen.dart';
 
 class PhotoScreen extends StatefulWidget {
   @override
@@ -24,7 +27,7 @@ class _PhotoScreenState extends State<PhotoScreen> {
     final data = await _firebaseService.getCustomData();
     if (data['imageUrls'] != null) {
       setState(() {
-        imageUrls = List<String>.from(data['imageUrls']);
+        imageUrls = List.from(data['imageUrls']);
       });
     }
   }
@@ -51,7 +54,6 @@ class _PhotoScreenState extends State<PhotoScreen> {
     }
   }
 
-
   Future<void> saveImages() async {
     await _firebaseService.saveCustomData({'imageUrls': imageUrls});
   }
@@ -59,52 +61,78 @@ class _PhotoScreenState extends State<PhotoScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text('Photo Screen')),
-      body: SafeArea(
-        child: Column(
-          children: [
-            Expanded(
-              child: GridView.builder(
-                gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                  crossAxisCount: 3,
-                  crossAxisSpacing: 4,
-                  mainAxisSpacing: 4,
-                ),
-                itemCount: 9,
-                itemBuilder: (context, index) {
-                  return GestureDetector(
-                    onTap: () {
-                      if (imageUrls[index].isNotEmpty) {
-                        showDialog(
-                          context: context,
-                          builder: (BuildContext context) {
-                            return GestureDetector(
-                              onTap: () => Navigator.pop(context),
-                              child: Dialog(
-                                child: Image.network(imageUrls[index]),
-                              ),
-                            );
-                          },
-                        );
-                      }
-                    },
-                    child: Container(
-                      decoration: BoxDecoration(
-                        border: Border.all(color: Colors.black, width: 1),
+      appBar: PreferredSize(
+        preferredSize: Size.fromHeight(0),
+        child: AppBar(
+          backgroundColor: Colors.transparent,
+          elevation: 0,
+          leading: IconButton(
+            icon: Icon(Icons.arrow_back),
+            onPressed: () {
+              Navigator.pushReplacement(
+                context,
+                MaterialPageRoute(builder: (context) => CustomScreen()),
+              );
+            },
+          ),
+        ),
+      ),
+      body: Container(
+        decoration: BoxDecoration(
+          image: DecorationImage(
+            image: AssetImage(Constants.photoBackgroundImage),
+            fit: BoxFit.cover,
+            alignment: Alignment.center,
+          ),
+        ),
+        child: SafeArea(
+          child: Column(
+            children: [
+              Expanded(child: SizedBox()),
+              Expanded(
+                child: GridView.builder(
+                  gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                    crossAxisCount: 3,
+                    crossAxisSpacing: 4,
+                    mainAxisSpacing: 4,
+                  ),
+                  itemCount: 9,
+                  itemBuilder: (context, index) {
+                    return GestureDetector(
+                      onTap: () {
+                        if (imageUrls[index].isNotEmpty) {
+                          showDialog(
+                            context: context,
+                            builder: (BuildContext context) {
+                              return GestureDetector(
+                                onTap: () => Navigator.pop(context),
+                                child: Dialog(
+                                  child: Image.network(imageUrls[index]),
+                                ),
+                              );
+                            },
+                          );
+                        }
+                      },
+                      child: Container(
+                        decoration: BoxDecoration(
+                          border: Border.all(color: Colors.black, width: 1),
+                        ),
+                        child: imageUrls[index].isNotEmpty
+                            ? Image.network(imageUrls[index], fit: BoxFit.cover)
+                            : Icon(Icons.add_photo_alternate),
                       ),
-                      child: imageUrls[index].isNotEmpty
-                          ? Image.network(imageUrls[index], fit: BoxFit.cover)
-                          : Icon(Icons.add_photo_alternate),
-                    ),
-                  );
-                },
+                    );
+                  },
+                ),
               ),
-            ),
-            ElevatedButton(
-              child: Text('Upload'),
-              onPressed: _uploadImages,
-            ),
-          ],
+              ElevatedButton(
+                child: Text('Upload'),
+                onPressed: _uploadImages,
+              ),
+              SizedBox(height: 20),
+            ],
+          ),
         ),
       ),
     );
