@@ -79,16 +79,10 @@ class _SongScreenState extends State<SongScreen> {
                     Opacity(
                       opacity: 0.5,
                       child: Container(
-                        //150 > 50
                         width: 50,
                         child: Column(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
-                            // Image.asset(
-                            //   'assets/images/${songInfos[(_currentIndex - 1 + songInfos.length) % songInfos.length].coverImage}',
-                            //   width: 100,
-                            //   height: 100,
-                            // ),
                             Text(
                               songInfos[(_currentIndex - 1 + songInfos.length) % songInfos.length].albumTitle,
                               style: TextStyle(fontSize: 12, color: Colors.white),
@@ -102,7 +96,7 @@ class _SongScreenState extends State<SongScreen> {
                       ),
                     ),
                     Container(
-                      width: 100,
+                      width: 200,
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
@@ -117,8 +111,8 @@ class _SongScreenState extends State<SongScreen> {
                             },
                             child: Image.asset(
                               'assets/images/${songInfos[_currentIndex].coverImage}',
-                              width: 100,
-                              height: 100,
+                              width: 150,
+                              height: 150,
                             ),
                           ),
                           Text(
@@ -135,16 +129,10 @@ class _SongScreenState extends State<SongScreen> {
                     Opacity(
                       opacity: 0.5,
                       child: Container(
-                        // 150 > 50
                         width: 50,
                         child: Column(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
-                            // Image.asset(
-                            //   'assets/images/${songInfos[(_currentIndex + 1) % songInfos.length].coverImage}',
-                            //   width: 100,
-                            //   height: 100,
-                            // ),
                             Text(
                               songInfos[(_currentIndex + 1) % songInfos.length].albumTitle,
                               style: TextStyle(fontSize: 12, color: Colors.white),
@@ -159,8 +147,7 @@ class _SongScreenState extends State<SongScreen> {
                     ),
                   ],
                 ),
-                // flex 삭제
-                Expanded(child: SizedBox()), // 아래쪽 여백 늘리기
+                Expanded(flex: 3, child: SizedBox()), // 아래쪽 여백 늘리기
               ],
             ),
           ),
