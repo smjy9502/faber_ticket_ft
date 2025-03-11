@@ -35,25 +35,14 @@ class _MainScreenState extends State<MainScreen> {
     }
   }
 
+  // main_screen.dart
   Future checkNFCAccess() async {
-    bool isAvailable = await NfcManager.instance.isAvailable();
-    if (isAvailable) {
-      NfcManager.instance.startSession(onDiscovered: (NfcTag tag) async {
-        print("NFC Tag detected!");
-        await setNFCFlag();
-        if (kIsWeb) {
-          bool isFromNFC = html.window.localStorage['isFromNFC'] == 'true';
-          if (isFromNFC) {
-            print("Access granted, staying on MainScreen");
-            setState(() {});
-          } else {
-            print("Access denied, navigating to ErrorScreen");
-            Navigator.pushReplacement(
-              context,
-              MaterialPageRoute(builder: (context) => ErrorScreen()),
-            );
-          }
-        } else {
+    if (!kIsWeb) { // 모바일 기기에서만 NFC 기능 사용
+      bool isAvailable = await NfcManager.instance.isAvailable();
+      if (isAvailable) {
+        NfcManager.instance.startSession(onDiscovered: (NfcTag tag) async {
+          print("NFC Tag detected!");
+          await setNFCFlag();
           final prefs = await SharedPreferences.getInstance();
           bool isFromNFC = prefs.getBool('isFromNFC') ?? false;
           if (isFromNFC) {
@@ -66,16 +55,23 @@ class _MainScreenState extends State<MainScreen> {
               MaterialPageRoute(builder: (context) => ErrorScreen()),
             );
           }
-        }
-      });
+        });
+      } else {
+        print('NFC not available');
+        Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(builder: (context) => ErrorScreen()),
+        );
+      }
     } else {
-      print('NFC not available');
+      // 웹 플랫폼에서는 다른 인증 방법 사용
       Navigator.pushReplacement(
         context,
         MaterialPageRoute(builder: (context) => ErrorScreen()),
       );
     }
   }
+
 
   @override
   Widget build(BuildContext context) {
