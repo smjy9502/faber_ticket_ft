@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:faber_ticket_ft/services/firebase_service.dart';
 import 'package:faber_ticket_ft/screens/main_screen.dart';
+import 'package:faber_ticket_ft/screens/photo_screen.dart';
+import 'package:faber_ticket_ft/screens/song_screen.dart';
 import 'package:faber_ticket_ft/utils/constants.dart';
 
 class CustomScreen extends StatefulWidget {
@@ -10,7 +12,7 @@ class CustomScreen extends StatefulWidget {
 
 class _CustomScreenState extends State<CustomScreen> {
   final FirebaseService _firebaseService = FirebaseService();
-  int _rating = 0;
+  int _rating = 0; // 평점
   final TextEditingController reviewController = TextEditingController();
   final TextEditingController sectionController = TextEditingController();
   final TextEditingController rowController = TextEditingController();
@@ -26,29 +28,18 @@ class _CustomScreenState extends State<CustomScreen> {
         'seat': seatController.text,
       };
       await _firebaseService.saveCustomData(data);
-      ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('Data saved successfully!')));
+      ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text('Data saved successfully!')));
     } catch (e) {
       print('Error saving data: $e');
-      ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('Error saving data: $e')));
+      ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text('Error saving data: $e')));
     }
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        backgroundColor: Colors.transparent,
-        elevation: 0,
-        leading: IconButton(
-          icon: Icon(Icons.arrow_back, color: Colors.white),
-          onPressed: () {
-            Navigator.pushReplacement(
-              context,
-              MaterialPageRoute(builder: (context) => MainScreen()),
-            );
-          },
-        ),
-      ),
       body: Container(
         decoration: BoxDecoration(
           image: DecorationImage(
@@ -57,52 +48,164 @@ class _CustomScreenState extends State<CustomScreen> {
           ),
         ),
         child: SafeArea(
-          child: Column(
+          child: Stack(
             children: [
-              Expanded(child: SizedBox()), // 여백 추가
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: List.generate(5, (index) {
-                  return IconButton(
-                    icon: Icon(
-                      Icons.star,
-                      color: index < _rating ? Colors.yellow : Colors.grey,
-                    ),
-                    onPressed: () {
-                      setState(() {
-                        _rating = index + 1;
-                      });
-                    },
-                  );
-                }),
-              ),
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 20.0),
-                child: TextField(
-                  controller: reviewController,
-                  decoration: InputDecoration(hintText: "Write your review"),
+              // Back 버튼 (화면 좌측 상단)
+              Positioned(
+                top: 20,
+                left: 20,
+                child: IconButton(
+                  icon: Icon(Icons.arrow_back, color: Colors.white),
+                  onPressed: () {
+                    Navigator.pushReplacement(
+                      context,
+                      MaterialPageRoute(builder: (context) => MainScreen()),
+                    );
+                  },
                 ),
               ),
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 20.0),
-                child: Column(
+
+              // Save 버튼 (화면 우측 상단)
+              Positioned(
+                top: 20,
+                right: 20,
+                child: ElevatedButton(
+                  onPressed: saveData,
+                  child: Text('Save'),
+                ),
+              ),
+
+              // Rate (평점 기능)
+              Positioned(
+                top: MediaQuery
+                    .of(context)
+                    .size
+                    .height * 0.45, // 이미지 상의 "Rate" 위치
+                left: MediaQuery
+                    .of(context)
+                    .size
+                    .width * 0.5 - 100,
+                child: Row(
+                  children: List.generate(5, (index) {
+                    return IconButton(
+                      icon: Icon(
+                        Icons.star,
+                        color: index < _rating ? Colors.yellow : Colors.grey,
+                      ),
+                      onPressed: () {
+                        setState(() {
+                          _rating = index + 1;
+                        });
+                      },
+                    );
+                  }),
+                ),
+              ),
+
+              // Review 입력
+              Positioned(
+                top: MediaQuery
+                    .of(context)
+                    .size
+                    .height * 0.55, // 이미지 상의 "Review" 위치
+                left: MediaQuery
+                    .of(context)
+                    .size
+                    .width * 0.5 - 150,
+                child: SizedBox(
+                  width: 300,
+                  child: TextField(
+                    controller: reviewController,
+                    decoration: InputDecoration(hintText: "Write your review"),
+                  ),
+                ),
+              ),
+
+              // Section, Row, Seat 입력
+              Positioned(
+                top: MediaQuery
+                    .of(context)
+                    .size
+                    .height * 0.7, // 이미지 상의 "Section", "Row", "Seat" 위치
+                left: MediaQuery
+                    .of(context)
+                    .size
+                    .width * 0.2,
+                right: MediaQuery
+                    .of(context)
+                    .size
+                    .width * 0.2,
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    TextField(controller: sectionController, decoration: InputDecoration(hintText: "Section")),
-                    SizedBox(height: 10),
-                    TextField(controller: rowController, decoration: InputDecoration(hintText: "Row")),
-                    SizedBox(height: 10),
-                    TextField(controller: seatController, decoration: InputDecoration(hintText: "Seat")),
+                    SizedBox(
+                      width: MediaQuery
+                          .of(context)
+                          .size
+                          .width * 0.2,
+                      child:
+                      TextField(controller: sectionController,
+                          decoration: InputDecoration(hintText: "Section")),
+                    ),
+                    SizedBox(
+                      width: MediaQuery
+                          .of(context)
+                          .size
+                          .width * 0.2,
+                      child:
+                      TextField(controller: rowController,
+                          decoration: InputDecoration(hintText: "Row")),
+                    ),
+                    SizedBox(
+                      width: MediaQuery
+                          .of(context)
+                          .size
+                          .width * 0.2,
+                      child:
+                      TextField(controller: seatController,
+                          decoration: InputDecoration(hintText: "Seat")),
+                    ),
                   ],
                 ),
               ),
-              Align(
-                alignment: Alignment.topRight,
-                child: ElevatedButton(onPressed: saveData, child: Text('Save')),
-              ),
-            ],
-          ),
-        ),
-      ),
-    );
+
+              // SetList 버튼과 Photo 버튼 (화면 하단)
+              Positioned(
+                bottom: MediaQuery
+                    .of(context)
+                    .size
+                    .height * 0.05, // 약간 더 아래로 이동
+                left: MediaQuery
+                    .of(context)
+                    .size
+                    .width * 0.1,
+                right: MediaQuery
+                    .of(context)
+                    .size
+                    .width * 0.1,
+                child:
+                Row(mainAxisAlignment:
+                MainAxisAlignment.spaceEvenly,
+                  children: [
+                    ElevatedButton(
+                      onPressed: () {
+                        Navigator.pushReplacement(
+                          context,
+                          MaterialPageRoute(builder: (context) => SongScreen()),
+                        );
+                      },
+                      child: Text("SetList"),
+                    ),
+                    ElevatedButton(
+                      onPressed: () {
+                        Navigator.pushReplacement(
+                          context,
+                          MaterialPageRoute(builder: (context) => PhotoScreen()),
+                        );
+                      },
+                      child: Text("Photo"),
+                    ),
+                ],),),
+            ],),),),);
   }
 }
