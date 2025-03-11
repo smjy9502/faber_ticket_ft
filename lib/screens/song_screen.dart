@@ -78,72 +78,81 @@ class _SongScreenState extends State<SongScreen> {
                   children: [
                     Opacity(
                       opacity: 0.5,
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Image.asset(
-                            'assets/images/${songInfos[(_currentIndex - 1 + songInfos.length) % songInfos.length].coverImage}',
-                            width: 100, // 이미지 크기 조정
-                            height: 100,
-                          ),
-                          Text(
-                            songInfos[(_currentIndex - 1 + songInfos.length) % songInfos.length].albumTitle,
-                            style: TextStyle(fontSize: 12), // 텍스트 크기 조정
-                          ),
-                          Text(
-                            songInfos[(_currentIndex - 1 + songInfos.length) % songInfos.length].songTitle,
-                            style: TextStyle(fontSize: 12),
-                          ),
-                        ],
+                      child: Container(
+                        width: 150,
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Image.asset(
+                              'assets/images/${songInfos[(_currentIndex - 1 + songInfos.length) % songInfos.length].coverImage}',
+                              width: 100,
+                              height: 100,
+                            ),
+                            Text(
+                              songInfos[(_currentIndex - 1 + songInfos.length) % songInfos.length].albumTitle,
+                              style: TextStyle(fontSize: 12, color: Colors.white),
+                            ),
+                            Text(
+                              songInfos[(_currentIndex - 1 + songInfos.length) % songInfos.length].songTitle,
+                              style: TextStyle(fontSize: 12, color: Colors.white),
+                            ),
+                          ],
+                        ),
                       ),
                     ),
-                    GestureDetector(
-                      onTap: () async {
-                        final url = songInfos[_currentIndex].youtubeLink;
-                        if (await canLaunchUrl(Uri.parse(url))) {
-                          await launchUrl(Uri.parse(url));
-                        } else {
-                          throw 'Could not launch $url';
-                        }
-                      },
+                    Container(
+                      width: 200,
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                          Image.asset(
-                            'assets/images/${songInfos[_currentIndex].coverImage}',
-                            width: 150, // 이미지 크기 조정
-                            height: 150,
+                          GestureDetector(
+                            onTap: () async {
+                              final url = songInfos[_currentIndex].youtubeLink;
+                              if (await canLaunchUrl(Uri.parse(url))) {
+                                await launchUrl(Uri.parse(url));
+                              } else {
+                                throw 'Could not launch $url';
+                              }
+                            },
+                            child: Image.asset(
+                              'assets/images/${songInfos[_currentIndex].coverImage}',
+                              width: 150,
+                              height: 150,
+                            ),
                           ),
                           Text(
                             songInfos[_currentIndex].albumTitle,
-                            style: TextStyle(fontSize: 16), // 텍스트 크기 조정
+                            style: TextStyle(fontSize: 16, color: Colors.white),
                           ),
                           Text(
                             songInfos[_currentIndex].songTitle,
-                            style: TextStyle(fontSize: 16),
+                            style: TextStyle(fontSize: 16, color: Colors.white),
                           ),
                         ],
                       ),
                     ),
                     Opacity(
                       opacity: 0.5,
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Image.asset(
-                            'assets/images/${songInfos[(_currentIndex + 1) % songInfos.length].coverImage}',
-                            width: 100, // 이미지 크기 조정
-                            height: 100,
-                          ),
-                          Text(
-                            songInfos[(_currentIndex + 1) % songInfos.length].albumTitle,
-                            style: TextStyle(fontSize: 12), // 텍스트 크기 조정
-                          ),
-                          Text(
-                            songInfos[(_currentIndex + 1) % songInfos.length].songTitle,
-                            style: TextStyle(fontSize: 12),
-                          ),
-                        ],
+                      child: Container(
+                        width: 150,
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Image.asset(
+                              'assets/images/${songInfos[(_currentIndex + 1) % songInfos.length].coverImage}',
+                              width: 100,
+                              height: 100,
+                            ),
+                            Text(
+                              songInfos[(_currentIndex + 1) % songInfos.length].albumTitle,
+                              style: TextStyle(fontSize: 12, color: Colors.white),
+                            ),
+                            Text(
+                              songInfos[(_currentIndex + 1) % songInfos.length].songTitle,
+                              style: TextStyle(fontSize: 12, color: Colors.white),
+                            ),
+                          ],
+                        ),
                       ),
                     ),
                   ],
