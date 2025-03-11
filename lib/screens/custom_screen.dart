@@ -35,6 +35,29 @@ class _CustomScreenState extends State<CustomScreen> {
     }
   }
 
+  Future<void> loadCustomData() async {
+    try {
+      final data = await _firebaseService.getCustomData();
+      if (data != null) {
+        setState(() {
+          _rating = data['rating'] ?? 0;
+          reviewController.text = data['review'] ?? '';
+          sectionController.text = data['section'] ?? '';
+          rowController.text = data['row'] ?? '';
+          seatController.text = data['seat'] ?? '';
+        });
+      }
+    } catch (e) {
+      print('Error loading data: $e');
+    }
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    loadCustomData();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -113,9 +136,9 @@ class _CustomScreenState extends State<CustomScreen> {
 
               // Section, Row, Seat 입력
               Positioned(
-                top: MediaQuery.of(context).size.height * 0.81, // 이미지 상의 "Section", "Row", "Seat" 위치
-                left: MediaQuery.of(context).size.width * 0.1,
-                right: MediaQuery.of(context).size.width * 0.1,
+                top: MediaQuery.of(context).size.height * 0.79, // 이미지 상의 "Section", "Row", "Seat" 위치
+                left: MediaQuery.of(context).size.width * 0.2,
+                right: MediaQuery.of(context).size.width * 0.2,
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
@@ -158,7 +181,7 @@ class _CustomScreenState extends State<CustomScreen> {
 
               // SetList 버튼과 Photo 버튼 (화면 하단)
               Positioned(
-                bottom: MediaQuery.of(context).size.height * 0.06, // 약간 더 아래로 이동
+                bottom: MediaQuery.of(context).size.height * 0.02, // 약간 더 아래로 이동
                 left: MediaQuery.of(context).size.width * 0.1,
                 right: MediaQuery.of(context).size.width * 0.1,
                 child: Row(
