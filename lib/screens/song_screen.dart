@@ -81,9 +81,19 @@ class _SongScreenState extends State<SongScreen> {
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                          Image.asset('assets/images/${songInfos[(_currentIndex - 1 + songInfos.length) % songInfos.length].coverImage}'),
-                          Text(songInfos[(_currentIndex - 1 + songInfos.length) % songInfos.length].albumTitle),
-                          Text(songInfos[(_currentIndex - 1 + songInfos.length) % songInfos.length].songTitle),
+                          Image.asset(
+                            'assets/images/${songInfos[(_currentIndex - 1 + songInfos.length) % songInfos.length].coverImage}',
+                            width: 100, // 이미지 크기 조정
+                            height: 100,
+                          ),
+                          Text(
+                            songInfos[(_currentIndex - 1 + songInfos.length) % songInfos.length].albumTitle,
+                            style: TextStyle(fontSize: 12), // 텍스트 크기 조정
+                          ),
+                          Text(
+                            songInfos[(_currentIndex - 1 + songInfos.length) % songInfos.length].songTitle,
+                            style: TextStyle(fontSize: 12),
+                          ),
                         ],
                       ),
                     ),
@@ -99,9 +109,19 @@ class _SongScreenState extends State<SongScreen> {
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                          Image.asset('assets/images/${songInfos[_currentIndex].coverImage}'),
-                          Text(songInfos[_currentIndex].albumTitle),
-                          Text(songInfos[_currentIndex].songTitle),
+                          Image.asset(
+                            'assets/images/${songInfos[_currentIndex].coverImage}',
+                            width: 150, // 이미지 크기 조정
+                            height: 150,
+                          ),
+                          Text(
+                            songInfos[_currentIndex].albumTitle,
+                            style: TextStyle(fontSize: 16), // 텍스트 크기 조정
+                          ),
+                          Text(
+                            songInfos[_currentIndex].songTitle,
+                            style: TextStyle(fontSize: 16),
+                          ),
                         ],
                       ),
                     ),
@@ -110,9 +130,19 @@ class _SongScreenState extends State<SongScreen> {
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                          Image.asset('assets/images/${songInfos[(_currentIndex + 1) % songInfos.length].coverImage}'),
-                          Text(songInfos[(_currentIndex + 1) % songInfos.length].albumTitle),
-                          Text(songInfos[(_currentIndex + 1) % songInfos.length].songTitle),
+                          Image.asset(
+                            'assets/images/${songInfos[(_currentIndex + 1) % songInfos.length].coverImage}',
+                            width: 100, // 이미지 크기 조정
+                            height: 100,
+                          ),
+                          Text(
+                            songInfos[(_currentIndex + 1) % songInfos.length].albumTitle,
+                            style: TextStyle(fontSize: 12), // 텍스트 크기 조정
+                          ),
+                          Text(
+                            songInfos[(_currentIndex + 1) % songInfos.length].songTitle,
+                            style: TextStyle(fontSize: 12),
+                          ),
                         ],
                       ),
                     ),
