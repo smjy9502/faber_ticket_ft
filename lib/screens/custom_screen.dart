@@ -28,12 +28,10 @@ class _CustomScreenState extends State<CustomScreen> {
         'seat': seatController.text,
       };
       await _firebaseService.saveCustomData(data);
-      ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('Data saved successfully!')));
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('Data saved successfully!')));
     } catch (e) {
       print('Error saving data: $e');
-      ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('Error saving data: $e')));
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('Error saving data: $e')));
     }
   }
 
@@ -77,14 +75,8 @@ class _CustomScreenState extends State<CustomScreen> {
 
               // Rate (평점 기능)
               Positioned(
-                top: MediaQuery
-                    .of(context)
-                    .size
-                    .height * 0.56, // 이미지 상의 "Rate" 위치
-                left: MediaQuery
-                    .of(context)
-                    .size
-                    .width * 0.5 - 100,
+                top: MediaQuery.of(context).size.height * 0.56, // 이미지 상의 "Rate" 위치
+                left: MediaQuery.of(context).size.width * 0.5 - 100,
                 child: Row(
                   children: List.generate(5, (index) {
                     return IconButton(
@@ -104,66 +96,61 @@ class _CustomScreenState extends State<CustomScreen> {
 
               // Review 입력
               Positioned(
-                top: MediaQuery
-                    .of(context)
-                    .size
-                    .height * 0.61, // 이미지 상의 "Review" 위치
-                left: MediaQuery
-                    .of(context)
-                    .size
-                    .width * 0.5 - 150,
+                top: MediaQuery.of(context).size.height * 0.7, // 이미지 상의 "Review" 위치
+                left: MediaQuery.of(context).size.width * 0.5 - 150,
                 child: SizedBox(
                   width: 300,
                   child: TextField(
                     controller: reviewController,
-                    decoration: InputDecoration(hintText: "Write your review"),
+                    style: TextStyle(color: Colors.white),
+                    decoration: InputDecoration(
+                      hintText: "Write your review",
+                      hintStyle: TextStyle(color: Colors.white),
+                    ),
                   ),
                 ),
               ),
 
               // Section, Row, Seat 입력
               Positioned(
-                top: MediaQuery
-                    .of(context)
-                    .size
-                    .height * 0.8, // 이미지 상의 "Section", "Row", "Seat" 위치
-                left: MediaQuery
-                    .of(context)
-                    .size
-                    .width * 0.2,
-                right: MediaQuery
-                    .of(context)
-                    .size
-                    .width * 0.2,
+                top: MediaQuery.of(context).size.height * 0.8, // 이미지 상의 "Section", "Row", "Seat" 위치
+                left: MediaQuery.of(context).size.width * 0.2,
+                right: MediaQuery.of(context).size.width * 0.2,
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     SizedBox(
-                      width: MediaQuery
-                          .of(context)
-                          .size
-                          .width * 0.2,
-                      child:
-                      TextField(controller: sectionController,
-                          decoration: InputDecoration(hintText: "Section")),
+                      width: MediaQuery.of(context).size.width * 0.2,
+                      child: TextField(
+                        controller: sectionController,
+                        style: TextStyle(color: Colors.white),
+                        decoration: InputDecoration(
+                          hintText: "Section",
+                          hintStyle: TextStyle(color: Colors.white),
+                        ),
+                      ),
                     ),
                     SizedBox(
-                      width: MediaQuery
-                          .of(context)
-                          .size
-                          .width * 0.2,
-                      child:
-                      TextField(controller: rowController,
-                          decoration: InputDecoration(hintText: "Row")),
+                      width: MediaQuery.of(context).size.width * 0.4,
+                      child: TextField(
+                        controller: rowController,
+                        style: TextStyle(color: Colors.white),
+                        decoration: InputDecoration(
+                          hintText: "Row",
+                          hintStyle: TextStyle(color: Colors.white),
+                        ),
+                      ),
                     ),
                     SizedBox(
-                      width: MediaQuery
-                          .of(context)
-                          .size
-                          .width * 0.2,
-                      child:
-                      TextField(controller: seatController,
-                          decoration: InputDecoration(hintText: "Seat")),
+                      width: MediaQuery.of(context).size.width * 0.4,
+                      child: TextField(
+                        controller: seatController,
+                        style: TextStyle(color: Colors.white),
+                        decoration: InputDecoration(
+                          hintText: "Seat",
+                          hintStyle: TextStyle(color: Colors.white),
+                        ),
+                      ),
                     ),
                   ],
                 ),
@@ -171,21 +158,11 @@ class _CustomScreenState extends State<CustomScreen> {
 
               // SetList 버튼과 Photo 버튼 (화면 하단)
               Positioned(
-                bottom: MediaQuery
-                    .of(context)
-                    .size
-                    .height * 0.05, // 약간 더 아래로 이동
-                left: MediaQuery
-                    .of(context)
-                    .size
-                    .width * 0.1,
-                right: MediaQuery
-                    .of(context)
-                    .size
-                    .width * 0.1,
-                child:
-                Row(mainAxisAlignment:
-                MainAxisAlignment.spaceEvenly,
+                bottom: MediaQuery.of(context).size.height * 0.05, // 약간 더 아래로 이동
+                left: MediaQuery.of(context).size.width * 0.1,
+                right: MediaQuery.of(context).size.width * 0.1,
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: [
                     ElevatedButton(
                       onPressed: () {
@@ -205,7 +182,13 @@ class _CustomScreenState extends State<CustomScreen> {
                       },
                       child: Text("Photo"),
                     ),
-                ],),),
-            ],),),),);
+                  ],
+                ),
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
   }
 }
