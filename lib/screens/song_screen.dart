@@ -111,8 +111,8 @@ class _SongScreenState extends State<SongScreen> {
                             },
                             child: Image.asset(
                               'assets/images/${Constants.coverImages[_currentIndex]}',
-                              width: 150,
-                              height: 150,
+                              width: 100,
+                              height: 100,
                             ),
                           ),
                           Text(
