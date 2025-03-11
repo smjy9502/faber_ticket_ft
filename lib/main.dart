@@ -43,7 +43,7 @@ class MyApp extends StatelessWidget {
 Future<bool> checkInitialAccess() async {
   if (foundation.kIsWeb) {
     final userAgent = html.window.navigator.userAgent;
-    final isMobile = userAgent.contains('Mobile');
+    final isMobile = userAgent.contains('Mobile') || userAgent.contains('Android') || userAgent.contains('iPhone');
     if (isMobile) {
       return true; // 모바일 기기에서만 접속 허용
     } else {
