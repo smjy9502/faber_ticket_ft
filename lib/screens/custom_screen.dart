@@ -98,9 +98,10 @@ class _CustomScreenState extends State<CustomScreen> {
 
               // Rate (평점 기능)
               Positioned(
-                top: MediaQuery.of(context).size.height * 0.56, // 이미지 상의 "Rate" 위치
-                left: MediaQuery.of(context).size.width * 0.5 - 100,
+                top: MediaQuery.of(context).size.height * 0.58, // 이미지 위치를 아래로 이동
+                left: MediaQuery.of(context).size.width * 0.5 - 120, // 이미지 위치 조정
                 child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly, // 이미지 간격 조정
                   children: List.generate(5, (index) {
                     return GestureDetector(
                       onTap: () {
@@ -116,13 +117,14 @@ class _CustomScreenState extends State<CustomScreen> {
                       },
                       child: Image.asset(
                         index < _rating ? Constants.petalFullImage : Constants.petalEmptyImage,
-                        width: 30, // 이미지 크기 조정
-                        height: 30,
+                        width: 40, // 이미지 크기 조정
+                        height: 40,
                       ),
                     );
                   }),
                 ),
               ),
+
 
               // Review 입력
               Positioned(
