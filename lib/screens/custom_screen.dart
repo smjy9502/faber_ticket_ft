@@ -102,16 +102,23 @@ class _CustomScreenState extends State<CustomScreen> {
                 left: MediaQuery.of(context).size.width * 0.5 - 100,
                 child: Row(
                   children: List.generate(5, (index) {
-                    return IconButton(
-                      icon: Icon(
-                        Icons.star,
-                        color: index < _rating ? Colors.yellow : Colors.grey,
-                      ),
-                      onPressed: () {
+                    return GestureDetector(
+                      onTap: () {
                         setState(() {
-                          _rating = index + 1;
+                          if (index < _rating) {
+                            _rating = index + 1;
+                          } else if (index == _rating) {
+                            _rating = index;
+                          } else {
+                            _rating = index + 1;
+                          }
                         });
                       },
+                      child: Image.asset(
+                        index < _rating ? Constants.petalFullImage : Constants.petalEmptyImage,
+                        width: 30, // 이미지 크기 조정
+                        height: 30,
+                      ),
                     );
                   }),
                 ),

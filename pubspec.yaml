@@ -80,6 +80,8 @@ flutter:
     - assets/images/cover_26.webp
     - assets/images/cover_27.webp
     - assets/images/cover_28.webp
+    - assets/images/petal_full.png
+    - assets/images/petal_empty.png
 
   fonts:
     - family: CustomFont

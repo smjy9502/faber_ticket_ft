@@ -66,6 +66,9 @@ class Constants {
     'cover_27.webp',
     'cover_28.webp',
   ];
+  static const String petalFullImage = 'assets/images/petal_full.png';
+  static const String petalEmptyImage = 'assets/images/petal_empty.png';
+
 
   // Firebase Collection Names
   static const String customDataCollection = 'custom_data';
