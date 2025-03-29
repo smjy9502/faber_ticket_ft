@@ -73,7 +73,7 @@ class _CustomScreenState extends State<CustomScreen> {
             children: [
               // Back 버튼 (화면 좌측 상단)
               Positioned(
-                top: 5,
+                top: 3,
                 left: 20,
                 child: IconButton(
                   icon: Icon(Icons.arrow_back, color: Colors.white),
